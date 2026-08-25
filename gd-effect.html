@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>扫街榜效果数据</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">扫街榜效果数据</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 商户信息 -->
+    <div class="flex items-center justify-between px-4 pt-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white"
+             style="background:linear-gradient(135deg,#4fcbf5,#2a9af1);">
+          <i class="fa-solid fa-location-dot text-[15px]"></i>
+        </div>
+        <div>
+          <div class="text-[14px] font-bold text-ink-900">小仙炖SKP快闪店</div>
+          <div class="text-[11px] text-ink-400 mt-0.5 flex items-center gap-1">
+            <i class="fa-solid fa-location-dot text-[9px]" style="color:#2E8FFF;"></i>
+            <span>北京市朝阳区建国路87号 SKP 1层</span>
+          </div>
+        </div>
+      </div>
+      <span class="tag green flex-shrink-0">已报名</span>
+    </div>
+
+    <!-- 核心指标 -->
+    <div class="card mx-3 mt-3 overflow-hidden">
+      <div class="flex">
+        <div class="flex-1 px-4 py-4">
+          <div class="flex items-center gap-1.5">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FFF9E6;">
+              <i class="fa-solid fa-star text-[11px]" style="color:#FFB800;"></i>
+            </div>
+            <span class="text-[12px] text-ink-400">门店评分</span>
+          </div>
+          <div class="flex items-end gap-1 mt-1.5">
+            <span class="num text-[30px] font-bold leading-none text-ink-900">4.8</span>
+            <span class="text-[11px] text-ink-400 mb-0.5">分</span>
+          </div>
+          <div class="flex items-center gap-0.5 mt-1.5">
+            <i class="fa-solid fa-star text-[10px]" style="color:#FFB800;"></i>
+            <i class="fa-solid fa-star text-[10px]" style="color:#FFB800;"></i>
+            <i class="fa-solid fa-star text-[10px]" style="color:#FFB800;"></i>
+            <i class="fa-solid fa-star text-[10px]" style="color:#FFB800;"></i>
+            <i class="fa-solid fa-star-half-stroke text-[10px]" style="color:#FFB800;"></i>
+          </div>
+        </div>
+        <div class="flex-1 px-4 py-4" style="border-left:1px solid #f0f0f0;">
+          <div class="flex items-center gap-1.5">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F2FF;">
+              <i class="fa-solid fa-ranking-star text-[11px]" style="color:#2E8FFF;"></i>
+            </div>
+            <span class="text-[12px] text-ink-400">扫街榜排名</span>
+          </div>
+          <div class="flex items-end gap-1 mt-1.5">
+            <span class="num text-[30px] font-bold leading-none" style="color:#2E8FFF;">第3名</span>
+          </div>
+          <div class="text-[10.5px] text-ink-300 mt-1.5">上一名：杭州西湖火锅店</div>
+        </div>
+      </div>
+
+      <div class="hairline mx-4"></div>
+
+      <div class="flex">
+        <div class="flex-1 px-4 py-4">
+          <div class="flex items-center gap-1.5">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F7EE;">
+              <i class="fa-solid fa-comment-dots text-[10px]" style="color:#1EC46C;"></i>
+            </div>
+            <span class="text-[12px] text-ink-400">昨日评价数量</span>
+          </div>
+          <div class="num text-[24px] font-bold leading-none text-ink-900 mt-1.5">100</div>
+          <div class="text-[10.5px] mt-1.5 flex items-center gap-1">
+            <span class="font-bold" style="color:#1EC46C;">+12%</span>
+            <span class="text-ink-300">较昨日</span>
+          </div>
+        </div>
+        <div class="flex-1 px-4 py-4" style="border-left:1px solid #f0f0f0;">
+          <div class="flex items-center gap-1.5">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FFF3EE;">
+              <i class="fa-solid fa-thumbs-down text-[10px]" style="color:#FF5A2E;"></i>
+            </div>
+            <span class="text-[12px] text-ink-400">昨日差评数量</span>
+          </div>
+          <div class="num text-[24px] font-bold leading-none text-ink-900 mt-1.5">2</div>
+          <div class="text-[10.5px] text-ink-300 mt-1.5">已及时回复处理</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 排名提升秘籍 -->
+    <div class="mx-3 mt-3 rounded-2xl p-4" style="background:#E6F2FF;">
+      <div class="flex items-center gap-1.5">
+        <i class="fa-solid fa-lightbulb text-[15px]" style="color:#1677ff;"></i>
+        <span class="text-[14px] font-bold text-ink-900">排名提升秘籍</span>
+      </div>
+      <p class="text-[12.5px] text-ink-600 leading-relaxed mt-2">
+        碰支付越频繁，评价积累越快，越有机会提升高德扫街榜排名，获得更多店铺曝光！
+      </p>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+</div>
+
+<script>
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+</script>
+</body>
+</html>
