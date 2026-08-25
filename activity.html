@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>活动报名</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">活动报名</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 活动列表 -->
+    <div class="card mx-3 mt-3 overflow-hidden">
+
+      <!-- 活动 1：淘宝闪购流量币 -->
+      <div class="p-4">
+        <div class="flex gap-3">
+          <div class="w-11 h-11 rounded-[10px] flex items-center justify-center flex-shrink-0"
+               style="background:linear-gradient(135deg,#ff6a00,#ff5000); color:#fff; font-size:10px; font-weight:700; letter-spacing:.5px;">闪购</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[15px] font-bold text-ink-900">淘宝闪购流量币</span>
+              <span class="tag gray" id="flowcoinTag">未报名</span>
+            </div>
+            <p class="text-[13px] text-ink-400 leading-relaxed mt-1.5">获得投流权益，提升闪购门店与团购券曝光</p>
+
+            <!-- 状态一：未报名（默认） -->
+            <div id="stateNotActivated" class="flex justify-end gap-2.5 mt-3">
+              <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='activity-rules.html'">活动规则</button>
+              <a href="open-intro.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                 style="background:linear-gradient(90deg,#ff7a4a,#ff4e1e); box-shadow:0 4px 10px rgba(255,90,46,.3); text-decoration:none;">立即报名</a>
+            </div>
+
+            <!-- 状态二：已报名（开通完成后回访） -->
+            <div id="stateActivated" class="hidden">
+              <div class="flex justify-end gap-2.5 mt-3">
+                <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='activity-rules.html'">活动规则</button>
+                <a href="flowcoin.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                   style="background:linear-gradient(90deg,#ffb800,#ff8a00); box-shadow:0 4px 10px rgba(255,184,0,.32); text-decoration:none;">查看流量币</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hairline mx-4"></div>
+
+      <!-- 活动 2：高德扫街榜评价 -->
+      <div class="p-4">
+        <div class="flex gap-3">
+          <div class="w-11 h-11 rounded-[10px] flex items-center justify-center flex-shrink-0"
+               style="background:linear-gradient(135deg,#4fcbf5,#2a9af1); color:#fff;">
+            <i class="fa-solid fa-location-dot text-[17px]"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="text-[15px] font-bold text-ink-900">高德扫街榜评价</span>
+              <span class="tag gray" id="gdTag">未报名</span>
+            </div>
+            <p class="text-[13px] text-ink-400 leading-relaxed mt-1.5">提升本地曝光，带来更多到店客流</p>
+
+            <!-- 状态一：未报名（默认） -->
+            <div id="gdNotActivated" class="flex justify-end gap-2.5 mt-3">
+              <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='gd-activity-rules.html'">活动规则</button>
+              <a href="gd-register.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                 style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 4px 10px rgba(22,119,255,.3); text-decoration:none;">立即报名</a>
+            </div>
+
+            <!-- 状态二：报名中（提交后返回，5 秒后自动转已报名） -->
+            <div id="gdReviewing" class="hidden">
+              <div class="flex items-center gap-1.5 mt-1.5 cursor-pointer" onclick="location.href='gd-reviewing.html'">
+                <i class="fa-solid fa-circle-notch fa-spin text-[13px]" style="color:#1677ff;"></i>
+                <span class="text-[12px]" style="color:#1677ff;">报名中，审核通过后可查看效果数据</span>
+                <i class="fa-solid fa-chevron-right text-[9px] text-ink-300"></i>
+              </div>
+              <div class="flex justify-end gap-2.5 mt-3">
+                <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='gd-activity-rules.html'">活动规则</button>
+                <a href="gd-reviewing.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                   style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 4px 10px rgba(22,119,255,.3); text-decoration:none;">查看详情</a>
+              </div>
+            </div>
+
+            <!-- 状态三：已报名（审核通过） -->
+            <div id="gdActivated" class="hidden">
+              <div class="flex justify-end gap-2.5 mt-3">
+                <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='gd-activity-rules.html'">活动规则</button>
+                <a href="gd-effect.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                   style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 4px 10px rgba(22,119,255,.3); text-decoration:none;">扫街效果数据</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 空态 -->
+    <div class="text-center text-[12px] text-ink-300 pt-7 pb-9">— 没有更多了 —</div>
+  </div>
+
+  <!-- 底部 tabBar -->
+  <nav class="tabbar">
+    <a class="tab" href="home.html">
+      <i class="fa-solid fa-house text-[22px]"></i>
+      <span>首页</span>
+    </a>
+    <a class="tab" href="message.html">
+      <i class="fa-solid fa-comment-dots text-[22px]"></i>
+      <span>消息</span>
+      <span class="badge" id="msgBadge">4</span>
+    </a>
+    <a class="tab" href="#">
+      <i class="fa-solid fa-user text-[22px]"></i>
+      <span>我的</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+  // 开通状态切换：从开通成功页返回时带 ?activated=1，流量币条目显示已开通
+  var activated = new URLSearchParams(window.location.search).get('activated') === '1';
+  if (activated) {
+    document.getElementById('stateNotActivated').classList.add('hidden');
+    document.getElementById('stateActivated').classList.remove('hidden');
+    var tag = document.getElementById('flowcoinTag');
+    tag.textContent = '已报名';
+    tag.classList.remove('gray');
+    tag.classList.add('green');
+  }
+
+  // 高德报名状态：提交完成后返回带 ?gd=reviewing → 报名中 → 5 秒后自动已报名
+  var gdState = new URLSearchParams(window.location.search).get('gd');
+  if (gdState === 'reviewing') {
+    document.getElementById('gdNotActivated').classList.add('hidden');
+    document.getElementById('gdReviewing').classList.remove('hidden');
+    var gdTag = document.getElementById('gdTag');
+    gdTag.textContent = '报名中';
+    gdTag.classList.remove('gray');
+    gdTag.classList.add('blue');
+    setTimeout(function () {
+      document.getElementById('gdReviewing').classList.add('hidden');
+      document.getElementById('gdActivated').classList.remove('hidden');
+      gdTag.textContent = '已报名';
+      gdTag.classList.remove('blue');
+      gdTag.classList.add('green');
+    }, 5000);
+  }
+
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+</script>
+
+<script>
+  // 未读角标与消息页同步（消息页 localStorage 维护 msgState）
+  try {
+    var s = JSON.parse(localStorage.getItem('msgState') || '{"read":["fc-arrival","settle","announce"],"pinnedCats":["announce","activity"],"pinnedMsgs":[]}');
+    if (!s || !Array.isArray(s.read)) s = { read: ["fc-arrival","settle","announce"] };
+    var unreadCount = 6 - s.read.length;
+    var b = document.getElementById('msgBadge');
+    if (b) {
+      b.textContent = unreadCount;
+      if (unreadCount <= 0) b.style.display = 'none';
+    }
+  } catch (e) {}
+</script>
+</body>
+</html>
