@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币 × 高德扫街榜 · 交互演示</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+<style>
+  /* ===== 演示模式：单台手机，专注交互 ===== */
+  body {
+    background:
+      radial-gradient(1000px 520px at 50% -120px, #2a2c35 0%, rgba(42,44,53,0) 70%),
+      linear-gradient(180deg, #17181d 0%, #101116 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px 56px;
+    color: #e8e9ee;
+  }
+  .demo-head { text-align: center; margin-bottom: 30px; }
+  .demo-head .eyebrow {
+    font-size: 12px; letter-spacing: 3px; color: #ff9a6b; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .demo-head .eyebrow::before, .demo-head .eyebrow::after { content: ""; width: 28px; height: 2px; background: #ff5a2e; border-radius: 2px; }
+  .demo-head h1 { font-size: 28px; font-weight: 800; margin-top: 12px; }
+  .demo-head h1 .accent {
+    background: linear-gradient(135deg, #ffb800, #ff7a4a);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .demo-head p { font-size: 13.5px; color: #9aa0ad; margin-top: 10px; line-height: 1.7; }
+
+  .demo-foot { text-align: center; margin-top: 34px; max-width: 560px; }
+  .demo-foot .tips {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: #c8ccd4; line-height: 1.7;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09);
+    padding: 12px 18px; border-radius: 14px;
+  }
+  .demo-foot .tips i { color: #ffb800; }
+  .demo-foot .links { margin-top: 14px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .demo-foot .links a {
+    font-size: 12.5px; color: #6d7280; text-decoration: none;
+    border: 1px solid rgba(255,255,255,.14); padding: 6px 16px; border-radius: 999px;
+    transition: all .15s;
+  }
+  .demo-foot .links a:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+</style>
+</head>
+<body>
+
+  <div class="demo-head">
+    <span class="eyebrow">INTERACTIVE DEMO</span>
+    <h1>流量币 × 高德扫街榜 · <span class="accent">交互演示</span></h1>
+    <p>打开即是商家主页，像真实 App 一样点按操作<br />完整走通：报名 → 开通介绍 → 关联门店 → 开通成功 → 回报名页查看流量币</p>
+  </div>
+
+  <!-- 单台 iPhone 15，加载商家主页 -->
+  <div class="ip15-device">
+    <div class="ip15-bezel">
+      <div class="ip15-screen">
+        <iframe src="home.html" scrolling="no" title="商家主页"></iframe>
+        <div class="ip15-island"><span class="cam"></span></div>
+        <div class="ip15-glass"></div>
+        <div class="ip15-home"></div>
+      </div>
+    </div>
+    <div class="ip15-btn ip15-action"></div>
+    <div class="ip15-btn ip15-volup"></div>
+    <div class="ip15-btn ip15-voldown"></div>
+    <div class="ip15-btn ip15-power"></div>
+  </div>
+
+  <div class="demo-foot">
+    <div class="tips">
+      <i class="fa-solid fa-hand-pointer"></i>
+      <span>体验入口：主页底部活动轮播「点击报名」，或点击轮播中的高德扫街榜卡片</span>
+    </div>
+    <div class="links">
+      <a href="showcase.html">查看完整展示台（16 台手机 + 页面清单）<i class="fa-solid fa-arrow-up-right-from-square" style="margin-left:4px; font-size:10px;"></i></a>
+      <a href="home.html" target="_blank">主页全屏打开 <i class="fa-solid fa-arrow-up-right-from-square" style="margin-left:4px; font-size:10px;"></i></a>
+    </div>
+  </div>
+
+</body>
+</html>
