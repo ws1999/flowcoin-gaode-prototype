@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>闪购推广效果</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">闪购推广效果</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 门店 1：千禧面包（西湖店） -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0"
+               style="background:linear-gradient(135deg,#ff6a00,#ff5000);">闪购</div>
+          <span class="text-[14px] font-bold text-ink-900">千禧面包（西湖店）</span>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <span class="text-[11px] text-ink-400">ID:32482347</span>
+          <a href="store-link.html" class="h-6 px-2.5 rounded-full border flex items-center text-[11px] font-medium active:bg-[#f8f8f8]" style="border-color:#D8DBDC; color:#1677FF; text-decoration:none;">编辑</a>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-x-3 gap-y-3.5 mt-3.5">
+        <div>
+          <div class="text-[10.5px] text-ink-400">已分配曝光数</div>
+          <div class="num text-[15px] font-bold text-ink-900 mt-0.5">35,000,000</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">已成功曝光数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店率</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">57.3%</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">订单笔数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">新客户订单数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 门店 2：千禧面包（临平店） -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0"
+               style="background:linear-gradient(135deg,#ff6a00,#ff5000);">闪购</div>
+          <span class="text-[14px] font-bold text-ink-900">千禧面包（临平店）</span>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <span class="text-[11px] text-ink-400">ID:32482347</span>
+          <a href="store-link.html" class="h-6 px-2.5 rounded-full border flex items-center text-[11px] font-medium active:bg-[#f8f8f8]" style="border-color:#D8DBDC; color:#1677FF; text-decoration:none;">编辑</a>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-x-3 gap-y-3.5 mt-3.5">
+        <div>
+          <div class="text-[10.5px] text-ink-400">已分配曝光数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">35,000</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">已成功曝光数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店率</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">57.3%</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">订单笔数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">新客户订单数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部固定：新增门店 -->
+  <div class="footer-cta">
+    <a href="store-link.html" class="btn-primary flex items-center justify-center gap-1.5 text-decoration-none"
+       style="text-decoration:none;">
+      <i class="fa-solid fa-plus text-[14px]"></i>新增门店
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
