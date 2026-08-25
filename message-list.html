@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>消息列表</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title" id="navTitle">消息</div>
+    <button class="nav-right" id="btnReadAll" onclick="readAll()" style="display:none;">标为已读</button>
+  </div>
+
+  <!-- 操作行：方框勾选样式 -->
+  <div class="flex items-center justify-between px-4 pt-3" id="opRow">
+    <button id="btnUnread" class="flex items-center gap-2.5" onclick="toggleUnread()">
+      <span class="w-5 h-5 rounded-[5px] border bg-white flex items-center justify-center" style="border-color:#D8DBDC;">
+        <i class="fa-solid fa-check text-[12px] font-bold" id="unreadCheck" style="color:#2B2E2F; display:none;"></i>
+      </span>
+      <span class="text-[15px] text-ink-700">只看未读</span>
+    </button>
+    <button id="btnPin" class="flex items-center gap-2.5" onclick="toggleCatPin()">
+      <span class="w-5 h-5 rounded-[5px] border bg-white flex items-center justify-center" style="border-color:#D8DBDC;">
+        <i class="fa-solid fa-check text-[12px] font-bold" id="pinCheck" style="color:#2B2E2F; display:none;"></i>
+      </span>
+      <span class="text-[15px] text-ink-700">设置置顶</span>
+    </button>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 消息列表 -->
+    <div class="card mx-3 mt-3 overflow-hidden" id="msgList"></div>
+
+    <!-- 空态 -->
+    <div id="emptyBox" class="hidden text-center pt-16 pb-12">
+      <i class="fa-solid fa-inbox text-[44px]" style="color:#E0E0E0;"></i>
+      <div class="text-[13px] text-ink-300 mt-3">暂无数据</div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 长按操作面板 -->
+  <div class="sheet-mask" id="sheetMask" onclick="closeSheet()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="text-center text-[12px] text-ink-300 py-1 truncate px-6" id="sheetTitle"></div>
+      <button class="sheet-item" id="sheetPin" onclick="togglePin()"><i class="fa-solid fa-thumbtack text-[14px]" style="color:#1677FF;"></i><span id="sheetPinText">置顶</span></button>
+      <button class="sheet-item" id="sheetRead" onclick="markReadAndClose()"><i class="fa-solid fa-check-double text-[14px]" style="color:#1677FF;"></i><span>标为已读</span></button>
+      <button class="sheet-item sheet-cancel" onclick="closeSheet()">取消</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 分类与消息（与 message.html 一致）
+  var CATS = {
+    announce: { name: '公告通知', icon: 'fa-bullhorn',           bg: '#FFF9E6', color: '#FFB800' },
+    update:   { name: '功能更新', icon: 'fa-arrows-rotate',      bg: '#FFF3EE', color: '#FF9F64' },
+    activity: { name: '支付宝活动通知', icon: 'fa-gift',        bg: '#FFF9E6', color: '#FFB800' },
+    service:  { name: '服务消息', icon: 'fa-comment-dots',       bg: '#FFF3EE', color: '#FE9E5E' },
+    biz:      { name: '业务通知', icon: 'fa-briefcase',          bg: '#E6F2FF', color: '#56A8FD' },
+    risk:     { name: '风险通知', icon: 'fa-triangle-exclamation', bg: '#FFF3EE', color: '#F76D24' }
+  };
+  var MSGS = {
+    announce: [
+      { type: 'announce', title: '假日结算、安全提醒', desc: '涉及您的资金安全请及时关注', time: '06-16', icon: 'fa-bullhorn', bg: '#FFF9E6', color: '#FFB800' }
+    ],
+    update: [],
+    activity: [
+      { type: 'fc-success', title: '淘宝闪购流量币 报名成功',   desc: '流量币权益已开通，收款即可赚流量币',   time: '09:41', icon: 'fa-coins',         bg: '#FFF9E6', color: '#E6A400' },
+      { type: 'gd-success', title: '高德扫街榜 报名成功',       desc: '报名已通过审核，可查看扫街效果数据',   time: '09:40', icon: 'fa-location-dot',  bg: '#E6F2FF', color: '#2E8FFF' },
+      { type: 'fc-fail',    title: '淘宝闪购流量币 报名未通过', desc: '门店信息审核未通过，请核对后重新提交', time: '09:35', icon: 'fa-circle-xmark',  bg: '#FFF3EE', color: '#FF5A2E' },
+      { type: 'gd-fail',    title: '高德扫街榜 报名未通过',     desc: '门店ID审核未通过，请检查后重新报名',   time: '09:30', icon: 'fa-circle-xmark',  bg: '#E6F2FF', color: '#2E8FFF' }
+    ],
+    service: [
+      { type: 'settle',     title: '结算成功通知',               desc: '今日营业款已结算至银行卡',             time: '08-19', icon: 'fa-circle-check', bg: '#E8F9F0', color: '#1EC46C' },
+      { type: 'fc-arrival', title: '流量币到账',                 desc: '高德扫街榜 · 人气奖励 +38.50',        time: '08-18', icon: 'fa-coins',         bg: '#FFF9E6', color: '#E6A400' }
+    ],
+    biz: [],
+    risk: []
+  };
+
+  // 状态持久化：{ read, pinnedCats, pinnedMsgs }
+  function loadState() {
+    try {
+      var s = JSON.parse(localStorage.getItem('msgState'));
+      if (s && Array.isArray(s.read) && Array.isArray(s.pinnedCats) && Array.isArray(s.pinnedMsgs)) return s;
+    } catch (e) {}
+    return { read: ['fc-arrival', 'settle', 'announce'], pinnedCats: ['announce','activity'], pinnedMsgs: [] };
+  }
+  function saveState() {
+    try { localStorage.setItem('msgState', JSON.stringify(state)); } catch (e) {}
+  }
+  var state = loadState();
+  var cat = new URLSearchParams(window.location.search).get('cat') || 'activity';
+  var onlyUnread = false;
+  var sheetType = '';
+
+  function isUnread(t) { return state.read.indexOf(t) === -1; }
+  function isPinned(t) { return state.pinnedMsgs.indexOf(t) !== -1; }
+
+  // 单条消息卡
+  function cardHTML(m, pinned) {
+    return '<a class="msg-item flex items-center gap-3 px-4 py-3.5 active:bg-[#fafafa]" data-type="' + m.type + '" style="text-decoration:none;' + (pinned ? ' background:#F7F8FA;' : '') + '">'
+      + '<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background:' + m.bg + ';">'
+      + '<i class="fa-solid ' + m.icon + ' text-[15px]" style="color:' + m.color + ';"></i></div>'
+      + '<div class="flex-1 min-w-0">'
+      + '<div class="flex items-center gap-1.5">'
+      + '<span class="text-[14px] font-semibold text-ink-900 truncate">' + m.title + '</span>'
+      + (pinned ? '<span class="tag blue flex-shrink-0">置顶</span>' : '')
+      + (isUnread(m.type) ? '<span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:#FF3B30;"></span>' : '')
+      + '</div>'
+      + '<div class="text-[12px] text-ink-400 mt-0.5 truncate">' + m.desc + '</div>'
+      + '</div>'
+      + '<span class="text-[11px] text-ink-300 flex-shrink-0">' + m.time + '</span>'
+      + '</a>';
+  }
+
+  function render() {
+    var c = CATS[cat];
+    document.getElementById('navTitle').textContent = c.name;
+
+    var list = (MSGS[cat] || []).slice();
+    var hasMsg = list.length > 0;
+    document.getElementById('opRow').style.display = hasMsg ? '' : 'none';
+    document.getElementById('btnReadAll').style.display = hasMsg ? '' : 'none';
+
+    if (hasMsg) {
+      // 置顶单条优先 + 只看未读过滤
+      list.sort(function (a, b) {
+        return (isPinned(b.type) ? 1 : 0) - (isPinned(a.type) ? 1 : 0);
+      });
+      if (onlyUnread) list = list.filter(function (m) { return isUnread(m.type); });
+
+      if (list.length) {
+        var html = list.map(function (m, i) {
+          var pinned = isPinned(m.type);
+          var row = cardHTML(m, pinned);
+          if (i < list.length - 1) row += '<div class="hairline mx-4"></div>';
+          return row;
+        }).join('');
+        document.getElementById('msgList').innerHTML = html;
+        document.getElementById('msgList').classList.remove('hidden');
+      } else {
+        document.getElementById('msgList').classList.add('hidden');
+      }
+    } else {
+      document.getElementById('msgList').classList.add('hidden');
+    }
+
+    // 空态
+    var empty = document.getElementById('emptyBox');
+    var noData = !hasMsg || (onlyUnread && !list.length);
+    empty.classList.toggle('hidden', !noData);
+
+    // 方框勾选状态
+    document.getElementById('unreadCheck').style.display = onlyUnread ? '' : 'none';
+    var catPinned = state.pinnedCats.indexOf(cat) !== -1;
+    document.getElementById('pinCheck').style.display = catPinned ? '' : 'none';
+  }
+
+  function toggleUnread() {
+    onlyUnread = !onlyUnread;
+    render();
+  }
+  function toggleCatPin() {
+    var i = state.pinnedCats.indexOf(cat);
+    if (i === -1) { state.pinnedCats.push(cat); showToast('已置顶该分类'); }
+    else { state.pinnedCats.splice(i, 1); showToast('已取消置顶'); }
+    saveState();
+    render();
+  }
+  function readAll() {
+    (MSGS[cat] || []).forEach(function (m) {
+      if (state.read.indexOf(m.type) === -1) state.read.push(m.type);
+    });
+    saveState();
+    render();
+    showToast('已标为已读');
+  }
+
+  // 长按弹操作面板
+  var pressTimer = null, pressFired = false, startX = 0, startY = 0;
+  document.addEventListener('pointerdown', function (e) {
+    var item = e.target.closest('.msg-item');
+    if (!item) return;
+    startX = e.clientX; startY = e.clientY;
+    pressTimer = setTimeout(function () {
+      pressFired = true;
+      openSheet(item.getAttribute('data-type'));
+    }, 500);
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!pressTimer) return;
+    if (Math.abs(e.clientX - startX) > 8 || Math.abs(e.clientY - startY) > 8) {
+      clearTimeout(pressTimer);
+      pressTimer = null;
+    }
+  });
+  document.addEventListener('pointerup', function () {
+    if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+    setTimeout(function () { pressFired = false; }, 0);
+  });
+
+  // 点击：长按已触发则拦截跳转
+  document.addEventListener('click', function (e) {
+    var item = e.target.closest('.msg-item');
+    if (!item) return;
+    if (pressFired) { pressFired = false; e.preventDefault(); return; }
+    markRead(item.getAttribute('data-type'));
+    location.href = 'message-detail.html?type=' + item.getAttribute('data-type');
+  });
+
+  function markRead(t) {
+    if (state.read.indexOf(t) === -1) {
+      state.read.push(t);
+      saveState();
+    }
+  }
+
+  // 操作面板
+  function openSheet(t) {
+    sheetType = t;
+    var all = [];
+    Object.keys(MSGS).forEach(function (k) { all = all.concat(MSGS[k]); });
+    var m = all.filter(function (x) { return x.type === t; })[0];
+    document.getElementById('sheetTitle').textContent = m ? m.title : '';
+    document.getElementById('sheetPinText').textContent = isPinned(t) ? '取消置顶' : '置顶';
+    document.getElementById('sheetRead').style.display = isUnread(t) ? '' : 'none';
+    document.getElementById('sheetMask').classList.add('show');
+  }
+  function closeSheet() {
+    document.getElementById('sheetMask').classList.remove('show');
+  }
+  function togglePin() {
+    var i = state.pinnedMsgs.indexOf(sheetType);
+    if (i === -1) { state.pinnedMsgs.push(sheetType); showToast('已置顶'); }
+    else { state.pinnedMsgs.splice(i, 1); showToast('已取消置顶'); }
+    saveState();
+    closeSheet();
+    render();
+  }
+  function markReadAndClose() {
+    markRead(sheetType);
+    closeSheet();
+    render();
+  }
+
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+
+  render();
+</script>
+</body>
+</html>
