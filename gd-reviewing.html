@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>报名进度</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="location.href='activity.html'"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">报名进度</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 报名中状态 -->
+    <div class="flex flex-col items-center pt-12">
+      <div class="relative w-16 h-16">
+        <div class="absolute inset-0 rounded-full opacity-30 animate-ping" style="background:#2E8FFF;"></div>
+        <div class="relative w-16 h-16 rounded-full flex items-center justify-center" style="background:#E6F2FF;">
+          <i class="fa-solid fa-circle-notch fa-spin text-[26px]" style="color:#1677ff;"></i>
+        </div>
+      </div>
+      <div class="text-[18px] font-bold text-ink-900 mt-4">报名中</div>
+    </div>
+
+    <!-- 报名信息 -->
+    <div class="card mx-3 mt-10 overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-3.5">
+        <span class="text-[13px] text-ink-400">高德门店ID</span>
+        <span class="num text-[14px] font-bold text-ink-900">GD-210819-001</span>
+      </div>
+      <div class="hairline mx-4"></div>
+      <div class="flex items-center justify-between px-4 py-3.5">
+        <span class="text-[13px] text-ink-400">报名状态</span>
+        <span class="tag blue">报名中</span>
+      </div>
+      <div class="hairline mx-4"></div>
+      <div class="flex items-center justify-between px-4 py-3.5">
+        <span class="text-[13px] text-ink-400">审核状态</span>
+        <span class="tag blue">审核中</span>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部完成按钮 -->
+  <div class="footer-cta">
+    <button class="btn-primary" style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 8px 20px rgba(22,119,255,.32);" onclick="location.href='activity.html?gd=reviewing'">完成</button>
+  </div>
+
+</div>
+
+<script>
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+</script>
+</body>
+</html>
