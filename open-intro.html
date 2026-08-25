@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币开通介绍</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">开通介绍</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 顶部 banner：流量币 -->
+    <div class="mx-3 mt-3 rounded-2xl relative overflow-hidden" style="background:linear-gradient(135deg,#ff7a4a 0%,#ff4e1e 62%,#f04a1e 100%);">
+      <div class="absolute -right-8 -top-10 w-40 h-40 rounded-full" style="background:rgba(255,255,255,.10);"></div>
+      <div class="absolute right-12 -bottom-12 w-32 h-32 rounded-full" style="background:rgba(255,255,255,.08);"></div>
+      <div class="p-5 relative">
+        <div class="flex items-start justify-between">
+          <div>
+            <h1 class="text-[24px] font-extrabold text-white leading-none">流量币</h1>
+            <p class="text-[12.5px] text-white/90 mt-2.5">— 支付宝收款越多 线上生意曝光越多 —</p>
+          </div>
+          <div class="coin shrink-0" style="width:64px; height:64px;">
+            <span class="coin-symbol" style="font-size:30px;">¥</span>
+          </div>
+        </div>
+        <div class="mt-4 space-y-2.5">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-circle-check text-[13px] text-white/90"></i>
+            <span class="text-[13.5px] font-semibold text-white">商家不出资</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-circle-check text-[13px] text-white/90"></i>
+            <span class="text-[13.5px] font-semibold text-white">多平台曝光</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <i class="fa-solid fa-circle-check text-[13px] text-white/90"></i>
+            <span class="text-[13.5px] font-semibold text-white">系统自动投</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 流量币用途 -->
+    <div class="card mx-3 mt-3 p-4">
+      <h2 class="text-[15px] font-bold text-ink-900">流量币用途</h2>
+
+      <!-- 闪购 -->
+      <div class="flex items-center gap-2.5 mt-3">
+        <div class="w-10 h-10 rounded-[10px] flex items-center justify-center flex-shrink-0 text-white text-[11px] font-bold tracking-wide"
+             style="background:linear-gradient(135deg,#ff6a00,#ff5000);">闪购</div>
+        <div class="text-[14px] font-bold text-ink-900">在淘宝闪购投放推广</div>
+      </div>
+      <p class="text-[12px] text-ink-400 leading-relaxed mt-1.5 ml-[50px]">在淘宝闪购核心位置获取流量，拉动即时零售订单</p>
+      <div class="ml-[50px] mt-2.5 space-y-2">
+        <div class="bg-bg rounded-[10px] px-3 py-2.5">
+          <div class="text-[12.5px] font-semibold text-ink-900">首页推荐加权</div>
+          <div class="text-[11.5px] text-ink-400 mt-0.5 leading-relaxed">获得淘宝闪购首页推荐黄金入口曝光</div>
+        </div>
+        <div class="bg-bg rounded-[10px] px-3 py-2.5">
+          <div class="text-[12.5px] font-semibold text-ink-900">搜索排序加权</div>
+          <div class="text-[11.5px] text-ink-400 mt-0.5 leading-relaxed">周边用户搜索关键词时，门店排名靠前</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 商家案例 -->
+    <div class="card mx-3 mt-3 p-4">
+      <h2 class="text-[15px] font-bold text-ink-900">商家案例</h2>
+
+      <!-- 全国连锁 -->
+      <div class="flex items-center gap-2 mt-3.5">
+        <span class="w-1 h-3.5 rounded-full" style="background:linear-gradient(180deg,#ffb800,#ff7a4a);"></span>
+        <span class="text-[13px] font-bold text-ink-900">全国连锁</span>
+      </div>
+
+      <!-- 某麻辣烫品牌 -->
+      <div class="mt-2.5 rounded-xl p-3.5" style="background:#FFF9F5; border:1px solid #FFEDE3;">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FF5A2E; color:#fff;"><i class="fa-solid fa-fire text-[12px]"></i></div>
+          <span class="text-[13.5px] font-bold text-ink-900">某麻辣烫品牌</span>
+        </div>
+        <img src="assets/case-mlt.jpg" alt="麻辣烫商品图" loading="lazy" class="w-1/2 mx-auto rounded-lg mt-2.5" />
+        <div class="flex mt-3">
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">373<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">纯新客订单 / 周</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">9<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">支付换 1 笔订单</div>
+          </div>
+        </div>
+        <p class="text-[11.5px] text-ink-600 leading-relaxed mt-2.5">总部强控的城市试点，每周获得纯新外卖客户带来的订单</p>
+      </div>
+
+      <!-- 某饭团品牌 -->
+      <div class="mt-2.5 rounded-xl p-3.5" style="background:#FFF9F5; border:1px solid #FFEDE3;">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FF5A2E; color:#fff;"><i class="fa-solid fa-bowl-food text-[12px]"></i></div>
+          <span class="text-[13.5px] font-bold text-ink-900">某饭团品牌</span>
+        </div>
+        <img src="assets/case-ft.jpg" alt="饭团商品图" loading="lazy" class="w-1/2 mx-auto rounded-lg mt-2.5" />
+        <div class="flex mt-3">
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">156<span class="text-[11px] font-normal"> 单</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">新客订单 / 周</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">4<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">支付换 1 笔订单</div>
+          </div>
+        </div>
+        <p class="text-[11.5px] text-ink-600 leading-relaxed mt-2.5">杭州地区每周可带来新客订单，为门店换来增量外卖订单</p>
+      </div>
+
+      <!-- 特色散店 -->
+      <div class="flex items-center gap-2 mt-4">
+        <span class="w-1 h-3.5 rounded-full" style="background:linear-gradient(180deg,#ffb800,#ff7a4a);"></span>
+        <span class="text-[13px] font-bold text-ink-900">特色散店</span>
+      </div>
+
+      <!-- 某鸡排品牌 -->
+      <div class="mt-2.5 rounded-xl p-3.5" style="background:#FFF9F5; border:1px solid #FFEDE3;">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FF5A2E; color:#fff;"><i class="fa-solid fa-drumstick-bite text-[12px]"></i></div>
+          <span class="text-[13.5px] font-bold text-ink-900">某鸡排品牌</span>
+        </div>
+        <img src="assets/case-jp.jpg" alt="鸡排商品图" loading="lazy" class="w-1/2 mx-auto rounded-lg mt-2.5" />
+        <div class="flex mt-3">
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">867<span class="text-[11px] font-normal"> 名</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">消费者进店</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">87<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">增量订单</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">11<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">支付换 1 笔</div>
+          </div>
+        </div>
+        <p class="text-[11.5px] text-ink-600 leading-relaxed mt-2.5">参与五周获万级曝光，换来增量订单</p>
+      </div>
+
+      <!-- 某北京小吃品牌 -->
+      <div class="mt-2.5 rounded-xl p-3.5" style="background:#FFF9F5; border:1px solid #FFEDE3;">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style="background:#FF5A2E; color:#fff;"><i class="fa-solid fa-utensils text-[12px]"></i></div>
+          <span class="text-[13.5px] font-bold text-ink-900">某北京小吃品牌</span>
+        </div>
+        <img src="assets/case-bjxc.jpg" alt="北京小吃商品图" loading="lazy" class="w-1/2 mx-auto rounded-lg mt-2.5" />
+        <div class="flex mt-3">
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">534<span class="text-[11px] font-normal"> 名</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">消费者进店</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">95<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">外卖订单</div>
+          </div>
+          <div class="w-px" style="background:#FFEDE3;"></div>
+          <div class="flex-1 text-center">
+            <div class="num text-[18px]" style="color:#FF5A2E;">2<span class="text-[11px] font-normal"> 笔</span></div>
+            <div class="text-[10.5px] text-ink-400 mt-0.5">支付换 1 笔</div>
+          </div>
+        </div>
+        <p class="text-[11.5px] text-ink-600 leading-relaxed mt-2.5">七天新增消费者进店，获得增量外卖订单</p>
+      </div>
+    </div>
+
+    <div class="h-24"></div>
+  </div>
+
+  <!-- 底部 CTA -->
+  <div class="footer-cta">
+    <a href="store-link.html" class="btn-primary" style="text-decoration:none;">立即开启</a>
+  </div>
+
+</div>
+</body>
+</html>
