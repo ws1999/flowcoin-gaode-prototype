@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币 × 高德扫街榜 · 高保真原型</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+<style>
+  /* ===== 原型展示台专属样式（设计陈列页） ===== */
+  body {
+    background:
+      radial-gradient(1000px 520px at 50% -120px, #2a2c35 0%, rgba(42,44,53,0) 70%),
+      linear-gradient(180deg, #17181d 0%, #101116 100%);
+    color: #e8e9ee;
+    display: block;
+    min-height: 100vh;
+    overflow-x: auto;
+    padding-bottom: 60px;
+  }
+  .wrap { width: max-content; min-width: 100%; margin: 0 auto; padding: 0 48px; }
+
+  /* 顶部标题区 */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 34px 0 20px;
+  }
+  .topbar .eyebrow {
+    font-size: 12px; letter-spacing: 3px; color: #ff9a6b; font-weight: 700;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .topbar .eyebrow::before { content: ""; width: 28px; height: 2px; background: #ff5a2e; border-radius: 2px; }
+  .topbar h1 { font-size: 34px; font-weight: 800; letter-spacing: 1px; margin-top: 10px; }
+  .topbar h1 .accent {
+    background: linear-gradient(135deg, #ffb800, #ff7a4a);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .topbar .slogan { font-size: 14px; color: #9aa0ad; margin-top: 10px; }
+  .topbar .meta { text-align: right; font-size: 12px; color: #6d7280; line-height: 1.9; white-space: nowrap; }
+
+  /* 信息卡片区 */
+  .info-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
+  .info-card {
+    background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 16px;
+    padding: 16px 18px;
+    width: 236px;
+  }
+  .info-card .ic {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; margin-bottom: 10px;
+  }
+  .info-card h4 { font-size: 14px; font-weight: 700; color: #f0f1f5; }
+  .info-card p { font-size: 12px; color: #9aa0ad; line-height: 1.65; margin-top: 6px; }
+
+  /* 用户旅程 */
+  .journey {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 999px;
+    width: max-content;
+    margin-bottom: 30px;
+  }
+  .journey .step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #d7dae0; }
+  .journey .step i { color: #ffb800; font-size: 12px; }
+  .journey .arrow { color: #565b66; font-size: 12px; }
+
+  /* 色板 */
+  .palette { display: flex; gap: 8px; align-items: center; margin-bottom: 34px; flex-wrap: wrap; }
+  .palette .lbl { font-size: 12px; color: #9aa0ad; margin-right: 6px; }
+  .swatch { width: 34px; height: 34px; border-radius: 10px; border: 1px solid rgba(255,255,255,.14); position: relative; }
+  .swatch span {
+    position: absolute; bottom: -17px; left: 50%; transform: translateX(-50%);
+    font-size: 9px; color: #6d7280; white-space: nowrap;
+  }
+
+  /* 手机墙 */
+  .stage-row { display: flex; align-items: flex-start; gap: 0; padding-bottom: 8px; }
+  .stage { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .stage-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stage-head .no {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff7a4a, #ff4e1e);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 90, 46, .4);
+  }
+  .stage-head .no.alt { background: linear-gradient(135deg, #4a9bff, #1677ff); box-shadow: 0 4px 12px rgba(22, 119, 255, .4); }
+  .stage-head h3 { font-size: 16px; font-weight: 700; color: #f0f1f5; }
+  .stage-head .file { font-size: 11px; color: #565b66; background: rgba(255,255,255,.06); padding: 2px 8px; border-radius: 6px; font-family: ui-monospace, Menlo, monospace; }
+
+  .stage-foot { text-align: center; margin-top: 18px; max-width: 330px; }
+  .stage-foot .desc { font-size: 12.5px; color: #aab0bb; line-height: 1.7; }
+  .stage-foot .next { font-size: 12px; color: #ff9a6b; margin-top: 6px; }
+  .stage-foot .open {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 8px; font-size: 11.5px; color: #6d7280;
+    text-decoration: none; border: 1px solid rgba(255,255,255,.14);
+    padding: 4px 12px; border-radius: 999px; transition: all .15s;
+  }
+  .stage-foot .open:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+
+  /* 手机之间的流程箭头 */
+  .flow-arrow {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px; padding: 0 20px; padding-top: 42px; flex-shrink: 0;
+  }
+  .flow-arrow i { font-size: 16px; color: #565b66; }
+  .flow-arrow span { font-size: 10px; color: #565b66; writing-mode: vertical-lr; letter-spacing: 2px; }
+
+  /* 页面清单表 */
+  .table-card {
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 16px;
+    padding: 20px 24px;
+    width: 760px;
+    margin-top: 30px;
+  }
+  .table-card h4 { font-size: 14px; font-weight: 700; color: #f0f1f5; margin-bottom: 14px; }
+  .table-card table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .table-card th { text-align: left; color: #9aa0ad; font-weight: 600; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .table-card td { color: #c8ccd4; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,.05); }
+  .table-card td code { color: #ffb800; font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; }
+  .table-card .flow-tag {
+    display: inline-block; font-size: 10.5px; padding: 1px 8px; border-radius: 999px;
+    background: rgba(255, 154, 107, .12); color: #ff9a6b; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ===== 顶部标题 ===== -->
+  <div class="topbar">
+    <div>
+      <div class="eyebrow">HIGH-FIDELITY PROTOTYPE · v1.0</div>
+      <h1>流量币 × 高德扫街榜 · <span class="accent">双福利拓客</span></h1>
+      <div class="slogan">以「线下收款 → 线上流量」为核心的商家增长飞轮 · 支付宝商家应用场景</div>
+    </div>
+    <div class="meta">
+      设计时间：2026-08-19<br />
+      目标人群：本地生活商家（30-50 岁店主）<br />
+      设备规范：iPhone 15 · 390 × 844 · 灵动岛
+    </div>
+  </div>
+
+  <!-- ===== 产品核心能力 ===== -->
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="ic" style="background:rgba(255,90,46,.15); color:#ff7a4a;"><i class="fa-solid fa-bullhorn"></i></div>
+      <h4>双权益活动报名</h4>
+      <p>流量币 + 高德扫街榜一次报名、双通道拓客；权益透明，报名零门槛。</p>
+    </div>
+    <div class="info-card">
+      <div class="ic" style="background:rgba(255,184,0,.15); color:#ffb800;"><i class="fa-solid fa-store"></i></div>
+      <h4>闪购门店关联</h4>
+      <p>报名后关联闪购门店，打通线上交易链路，让流量币有明确的兑换标的。</p>
+    </div>
+    <div class="info-card">
+      <div class="ic" style="background:rgba(30,196,108,.15); color:#1ec46c;"><i class="fa-solid fa-circle-check"></i></div>
+      <h4>开通成功反馈</h4>
+      <p>金币动效 + 权益摘要的激活仪式感，驱动首笔收款行为。</p>
+    </div>
+    <div class="info-card">
+      <div class="ic" style="background:rgba(255,184,0,.15); color:#ffb800;"><i class="fa-solid fa-coins"></i></div>
+      <h4>流量币明细</h4>
+      <p>钱包式资产感知，收款 → 赚币 → 兑换全链路透明，持续激励经营。</p>
+    </div>
+    <div class="info-card">
+      <div class="ic" style="background:rgba(46,143,255,.15); color:#4a9bff;"><i class="fa-solid fa-ranking-star"></i></div>
+      <h4>高德扫街榜</h4>
+      <p>到店人气实时排名，冲榜赢流量币与商圈曝光，把客流带回线下门店。</p>
+    </div>
+  </div>
+
+  <!-- ===== 用户旅程 ===== -->
+  <div class="journey">
+    <span class="step"><i class="fa-solid fa-qrcode"></i>线下收款</span>
+    <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+    <span class="step"><i class="fa-solid fa-coins"></i>赚流量币</span>
+    <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+    <span class="step"><i class="fa-solid fa-rocket"></i>兑换曝光</span>
+    <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+    <span class="step"><i class="fa-solid fa-ranking-star"></i>榜单引流</span>
+    <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+    <span class="step"><i class="fa-solid fa-arrow-trend-up"></i>到店增收</span>
+  </div>
+
+  <!-- ===== 设计规范色板 ===== -->
+  <div class="palette">
+    <span class="lbl">设计 Token</span>
+    <div class="swatch" style="background:#FF5A2E;"><span>#FF5A2E</span></div>
+    <div class="swatch" style="background:#FFB800;"><span>#FFB800</span></div>
+    <div class="swatch" style="background:#2E8FFF;"><span>#2E8FFF</span></div>
+    <div class="swatch" style="background:#1677FF;"><span>#1677FF</span></div>
+    <div class="swatch" style="background:#1EC46C;"><span>#1EC46C</span></div>
+    <div class="swatch" style="background:#1A1A1A;"><span>#1A1A1A</span></div>
+    <div class="swatch" style="background:#999999;"><span>#999999</span></div>
+    <div class="swatch" style="background:#F5F6F8;"><span>#F5F6F8</span></div>
+    <span class="lbl" style="margin-left:10px;">卡片圆角 16 · 按钮高 48 · 状态栏 54 · tabBar 64 毛玻璃</span>
+  </div>
+
+  <!-- ===== 手机墙：6 个页面 ===== -->
+  <div class="stage-row">
+
+    <!-- 01 商家首页 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">01</span><h3>商家首页</h3><span class="file">home.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="home.html" scrolling="no" title="商家首页"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">今日营业额 · 生意报表 · 快捷入口 · 底部活动轮播（报名入口）</div>
+        <div class="next">点击轮播「点击报名」→ 进入 02 活动报名</div>
+        <a class="open" href="home.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>点击报名</span></div>
+
+    <!-- 02 活动报名 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">02</span><h3>活动报名</h3><span class="file">activity.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="activity.html" scrolling="no" title="活动报名"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">活动列表（流量币 / 高德扫街榜）· 初始未报名；开通完成回访显示已报名</div>
+        <div class="next">未报名点「立即报名」→ 03 开通介绍；已开通点「查看流量币」→ 06 明细</div>
+        <a class="open" href="activity.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>立即报名</span></div>
+
+    <!-- 03 开通介绍 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">03</span><h3>开通介绍</h3><span class="file">open-intro.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="open-intro.html" scrolling="no" title="流量币开通介绍"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">仿支付宝开放文档开通介绍 · 产品介绍 / 核心权益 / 开通条件 / 开通流程 / 规则 FAQ</div>
+        <div class="next">底部「立即开通」→ 进入 04 关联门店</div>
+        <a class="open" href="open-intro.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>立即开通</span></div>
+
+    <!-- 04 关联闪购门店 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">04</span><h3>关联闪购门店</h3><span class="file">store-link.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="store-link.html" scrolling="no" title="关联闪购门店"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">3 步进度条 · 门店搜索 · 列表勾选（筹备中门店置灰）· 已选计数</div>
+        <div class="next">选择门店后点「提交」→ 进入 05 开通成功</div>
+        <a class="open" href="store-link.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>提交</span></div>
+
+    <!-- 05 开通成功 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">05</span><h3>开通成功</h3><span class="file">success.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="success.html" scrolling="no" title="流量币开通成功"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">金币弹出 + 光环动效 · 权益摘要（已开通 / 门店ID）</div>
+        <div class="next">点击「完成」→ 回到 02 活动报名（状态变为已开通）</div>
+        <a class="open" href="success.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>完成 · 回报名页</span></div>
+
+    <!-- 06 流量币明细 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">06</span><h3>流量币数据</h3><span class="file">flowcoin.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="flowcoin.html" scrolling="no" title="流量币明细"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">流量币数据总览：汇总四列 · 获得任务与门槛 · 投放效果汇总 · 闪购推广效果</div>
+        <div class="next">点击「查看明细」→ 07 流量币明细</div>
+        <a class="open" href="flowcoin.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>查看明细</span></div>
+
+    <!-- 07 流量币明细 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">07</span><h3>流量币明细</h3><span class="file">flowcoin-detail.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="flowcoin-detail.html" scrolling="no" title="流量币明细"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">获得明细 / 投放明细 Tab · 收款 +1、门槛一次性发放 +16 · 门店投放记录</div>
+        <div class="next">返回流量币数据页点「查看效果」→ 08 闪购推广效果</div>
+        <a class="open" href="flowcoin-detail.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>查看效果</span></div>
+
+    <!-- 08 闪购推广效果 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no">08</span><h3>闪购推广效果</h3><span class="file">flowcoin-effect.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="flowcoin-effect.html" scrolling="no" title="闪购推广效果"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">分门店效果卡：曝光 → 进店 → 订单三级漏斗 · 门店ID 标识</div>
+        <div class="next">数据页「闪购推广效果」卡详情 / 底部「查看效果」均可到达</div>
+        <a class="open" href="flowcoin-effect.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>冲榜</span></div>
+
+    <!-- 09 高德扫街榜 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">09</span><h3>高德扫街榜</h3><span class="file">rank.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="rank.html" scrolling="no" title="高德扫街榜"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">商圈人气实时榜 · 金银铜领奖台 · 冲榜奖励规则 · 邀请打卡</div>
+        <div class="next">副线入口：首页榜单卡 / 报名页权益卡均可到达</div>
+        <a class="open" href="rank.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>高德报名</span></div>
+
+    <!-- 10 高德报名介绍 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">10</span><h3>高德报名介绍</h3><span class="file">gd-register.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="gd-register.html" scrolling="no" title="高德报名介绍"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">蓝色主题 · 开通优势 2×2 · 底部立即报名</div>
+        <div class="next">入口：活动报名页高德条目「立即报名」</div>
+        <a class="open" href="gd-register.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>提交门店ID</span></div>
+
+    <!-- 11 绑定高德门店 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">11</span><h3>绑定高德门店</h3><span class="file">gd-store-link.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="gd-store-link.html" scrolling="no" title="绑定高德门店"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">3 步进度条 · 门店ID输入与粘贴 · 复制指引折叠帮助 · 提交校验</div>
+        <div class="next">提交后进入报名中</div>
+        <a class="open" href="gd-store-link.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>提交</span></div>
+
+    <!-- 12 报名中 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">12</span><h3>报名中</h3><span class="file">gd-reviewing.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="gd-reviewing.html" scrolling="no" title="报名中"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">旋转加载动效 · 门店ID / 报名状态 / 审核状态 · 底部完成</div>
+        <div class="next">完成 → 回报名页「报名中」→ 5 秒后自动转「已报名」</div>
+        <a class="open" href="gd-reviewing.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>审核通过</span></div>
+
+    <!-- 13 扫街效果数据 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">13</span><h3>扫街效果数据</h3><span class="file">gd-effect.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="gd-effect.html" scrolling="no" title="扫街效果数据"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">商户信息 · 门店评分 / 榜单排名 / 评价 / 差评四指标 · 排名提升秘籍</div>
+        <div class="next">入口：报名页「扫街效果数据」/ 报名成功消息</div>
+        <a class="open" href="gd-effect.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>消息通知</span></div>
+
+    <!-- 14 消息列表 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">14</span><h3>消息列表</h3><span class="file">message.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="message.html" scrolling="no" title="消息列表"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">消息分类列表 · 公告/功能更新/支付宝活动通知/服务/业务/风险 · 置顶分类优先</div>
+        <div class="next">入口：首页通知区「全部」/ 各页 tabBar 消息</div>
+        <a class="open" href="message.html" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>点进分类</span></div>
+
+    <!-- 15 分类内消息列表 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">15</span><h3>分类内消息列表</h3><span class="file">message-list.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="message-list.html?cat=activity" scrolling="no" title="分类内消息列表"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">只看未读筛选 · 设置置顶（分类级）· 标为已读 · 长按消息置顶 · 暂无数据空态</div>
+        <div class="next">入口：消息页点击任一分类</div>
+        <a class="open" href="message-list.html?cat=activity" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <div class="flow-arrow"><i class="fa-solid fa-arrow-right-long"></i><span>查看详情</span></div>
+
+    <!-- 16 消息详情 -->
+    <div class="stage">
+      <div class="stage-head"><span class="no alt">16</span><h3>消息详情</h3><span class="file">message-detail.html</span></div>
+      <div class="ip15-device">
+        <div class="ip15-bezel">
+          <div class="ip15-screen">
+            <iframe src="message-detail.html?type=gd-success" scrolling="no" title="消息详情"></iframe>
+            <div class="ip15-island"><span class="cam"></span></div>
+            <div class="ip15-glass"></div>
+            <div class="ip15-home"></div>
+          </div>
+        </div>
+        <div class="ip15-btn ip15-action"></div>
+        <div class="ip15-btn ip15-volup"></div>
+        <div class="ip15-btn ip15-voldown"></div>
+        <div class="ip15-btn ip15-power"></div>
+      </div>
+      <div class="stage-foot">
+        <div class="desc">JS 按 ?type= 渲染 6 类消息 · 审核结果 / 失败原因 / 操作按钮跳转</div>
+        <div class="next">失败消息按钮「重新报名」直达对应报名入口</div>
+        <a class="open" href="message-detail.html?type=gd-success" target="_blank">新窗口打开 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 页面清单 ===== -->
+  <div class="table-card">
+    <h4>页面清单与跳转关系</h4>
+    <table>
+      <tr>
+        <th>页面</th><th>文件</th><th>核心内容</th><th>流程</th>
+      </tr>
+      <tr>
+        <td>商家首页</td><td><code>home.html</code></td><td>活动轮播入口、扫街榜排名卡、营业额</td><td><span class="flow-tag">起点</span></td>
+      </tr>
+      <tr>
+        <td>活动报名</td><td><code>activity.html</code></td><td>活动列表 · 初始未报名；开通后显示已报名 + 查看流量币</td><td><span class="flow-tag">02</span></td>
+      </tr>
+      <tr>
+        <td>开通介绍</td><td><code>open-intro.html</code></td><td>仿支付宝开放文档：产品介绍、核心权益、开通条件、开通流程、规则 FAQ</td><td><span class="flow-tag">03</span></td>
+      </tr>
+      <tr>
+        <td>关联闪购门店</td><td><code>store-link.html</code></td><td>3 步进度、门店搜索与勾选、提交</td><td><span class="flow-tag">04</span></td>
+      </tr>
+      <tr>
+        <td>开通成功</td><td><code>success.html</code></td><td>金币动效、权益摘要、完成</td><td><span class="flow-tag">05</span></td>
+      </tr>
+      <tr>
+        <td>流量币数据</td><td><code>flowcoin.html</code></td><td>流量币汇总、获得任务与门槛、投放效果汇总、推广效果</td><td><span class="flow-tag">06 · 资产页</span></td>
+      </tr>
+      <tr>
+        <td>流量币明细</td><td><code>flowcoin-detail.html</code></td><td>获得明细 / 投放明细 Tab · 门店投放记录</td><td><span class="flow-tag">07</span></td>
+      </tr>
+      <tr>
+        <td>闪购推广效果</td><td><code>flowcoin-effect.html</code></td><td>分门店效果卡：曝光 / 进店 / 订单漏斗指标</td><td><span class="flow-tag">08</span></td>
+      </tr>
+      <tr>
+        <td>高德扫街榜</td><td><code>rank.html</code></td><td>实时榜、领奖台、奖励规则</td><td><span class="flow-tag">09</span></td>
+      </tr>
+      <tr>
+        <td>高德报名介绍</td><td><code>gd-register.html</code></td><td>蓝色主题 · 开通优势 · 立即报名</td><td><span class="flow-tag">10</span></td>
+      </tr>
+      <tr>
+        <td>绑定高德门店</td><td><code>gd-store-link.html</code></td><td>3 步进度 · 门店ID输入与粘贴 · 复制指引</td><td><span class="flow-tag">11</span></td>
+      </tr>
+      <tr>
+        <td>报名中</td><td><code>gd-reviewing.html</code></td><td>门店ID / 报名状态 / 审核状态 · 完成</td><td><span class="flow-tag">12</span></td>
+      </tr>
+      <tr>
+        <td>扫街效果数据</td><td><code>gd-effect.html</code></td><td>评分 / 排名 / 评价 / 差评四指标 · 排名秘籍</td><td><span class="flow-tag">13</span></td>
+      </tr>
+      <tr>
+        <td>消息列表</td><td><code>message.html</code></td><td>消息分类（公告 / 活动通知 / 服务 / 业务 / 风险）· 置顶分类 · 全部已读</td><td><span class="flow-tag">14</span></td>
+      </tr>
+      <tr>
+        <td>分类内消息列表</td><td><code>message-list.html</code></td><td>只看未读 · 设置置顶 · 标为已读 · 长按消息置顶</td><td><span class="flow-tag">15</span></td>
+      </tr>
+      <tr>
+        <td>消息详情</td><td><code>message-detail.html</code></td><td>JS 按 type 渲染 · 失败原因与重新报名</td><td><span class="flow-tag">16</span></td>
+      </tr>
+    </table>
+    <p style="font-size:11.5px; color:#6d7280; margin-top:12px; line-height:1.7;">
+      说明：手机内页面可真实交互，流量币主线（报名 → 开通介绍 → 关联门店 → 开通成功 → 数据）与高德副线（报名介绍 → 绑定门店 → 报名中 → 效果数据）均可在任意一台手机内走通；
+      报名状态通过 URL 参数模拟（activity.html?gd=reviewing 报名中 5 秒后自动转已报名），消息详情按 ?type= 渲染；
+      页面为 390×844 纯屏幕内容，外壳仅由展示台渲染，便于逐页导出 Figma 二次编辑（Tailwind 类 + 语义化结构）。
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
