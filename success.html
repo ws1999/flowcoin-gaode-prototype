@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币开通成功</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 上部金橙渐变区（约 51%，金币沉浸区） -->
+  <div class="h-[430px] flex-shrink-0 bg-gradient-to-b from-[#FFD34E] via-[#FFB800] to-[#FF9A2E] flex flex-col relative">
+    <!-- 状态栏（透明融入渐变区） -->
+    <div class="statusbar" style="background:transparent;">
+      <span>9:41</span>
+      <span class="sb-right">
+        <i class="fa-solid fa-signal text-[11px]"></i>
+        <i class="fa-solid fa-wifi text-[11px]"></i>
+        <span style="font-size:13px;">5G</span>
+        <i class="fa-solid fa-battery-full text-[14px]"></i>
+      </span>
+    </div>
+
+    <!-- 中央大金币 + 光环 + 成功对勾 -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="relative opacity-0" id="coinWrap" style="width:118px;height:118px;">
+        <div class="ring"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="coin" style="width:118px;height:118px;">
+          <span class="coin-symbol" style="font-size:48px;">¥</span>
+        </div>
+        <!-- 成功对勾 badge -->
+        <div class="seq-anim d2 opacity-0 absolute left-1/2 -translate-x-1/2 -bottom-6 w-11 h-11 bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,.14)] flex items-center justify-center">
+          <i class="fa-solid fa-check text-success text-[20px]"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 白色内容区 -->
+  <div class="flex-1 bg-white flex flex-col items-center pt-4 px-4">
+    <h1 class="seq-anim d1 opacity-0 text-2xl font-extrabold text-ink-900">流量币开通成功！</h1>
+    <p class="seq-anim d2 opacity-0 text-[13px] text-ink-400 mt-1">收款赚流量币 · 换闪购曝光</p>
+
+    <!-- 权益摘要 -->
+    <div class="card seq-anim d3 opacity-0 w-full mt-3.5">
+      <!-- 行 1：淘宝闪购流量币 -->
+      <div class="flex items-center gap-3 px-4 py-2.5">
+        <div class="w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-bolt text-brand-500 text-[16px]"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-[14px] font-semibold text-ink-900 whitespace-nowrap">淘宝闪购流量币</span>
+            <span class="tag green flex-shrink-0">已报名</span>
+          </div>
+          <p class="text-xs text-ink-400 mt-1">门店ID 已关联：TB-FG-210819-001</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 提示条 -->
+    <div class="card seq-anim d4 opacity-0 w-full mt-2.5 flex items-center gap-2.5 px-4 py-2.5">
+      <i class="fa-solid fa-bolt text-gold-500 text-[15px] flex-shrink-0"></i>
+      <span class="text-[13px] text-ink-600">开始收款，每笔收款自动累积流量币</span>
+    </div>
+  </div>
+
+  <!-- 底部固定操作栏 -->
+  <div class="footer-cta">
+    <button class="btn-primary" onclick="location.href='activity.html?activated=1'">完成</button>
+  </div>
+</div>
+
+<script>
+  // 页面加载 150ms 后触发入场动画：金币先弹出，内容依次淡入上浮
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      // 金币弹出
+      var coinWrap = document.getElementById('coinWrap');
+      coinWrap.classList.remove('opacity-0');
+      coinWrap.classList.add('anim-coin-pop');
+      // 内容依次入场
+      var items = document.querySelectorAll('.seq-anim');
+      items.forEach(function (el, i) {
+        setTimeout(function () {
+          el.classList.remove('opacity-0');
+          el.classList.add('anim-fade-up');
+        }, 100 + i * 100);
+      });
+    }, 150);
+  });
+</script>
+</body>
+</html>
