@@ -194,7 +194,28 @@ tailwind.config = {
         </div>
       </section>
 
-      <!-- 6. 底部留白 -->
+      <!-- 6. 活动轮播（报名入口，自动播放 4s + 拖动） -->
+      <section class="relative h-[108px] rounded-[14px] overflow-hidden bg-white shadow-[0_6px_18px_rgba(80,126,255,.12)] touch-pan-y select-none" id="carousel">
+        <div class="flex h-full transition-transform duration-500 ease-out will-change-transform" id="carouselTrack">
+
+          <!-- Slide 1：流量币 + 高德扫街榜（浅金底 + 文字居中） -->
+          <div class="min-w-full h-full relative overflow-hidden flex items-center justify-center" style="background:linear-gradient(120deg,#FFF6E3 0%,#FFE9BF 100%);">
+            <!-- 两侧对称装饰环 -->
+            <div class="absolute -left-7 top-1/2 -translate-y-1/2 w-[68px] h-[68px] rounded-full" style="border:11px solid rgba(255,184,0,.25);"></div>
+            <div class="absolute -right-7 top-1/2 -translate-y-1/2 w-[68px] h-[68px] rounded-full" style="border:11px solid rgba(255,184,0,.25);"></div>
+            <div class="absolute left-12 bottom-2.5 w-2.5 h-2.5 rounded-full" style="background:rgba(255,154,46,.4);"></div>
+            <div class="absolute right-12 top-2.5 w-2.5 h-2.5 rounded-full" style="background:rgba(255,154,46,.4);"></div>
+            <!-- 居中文案 -->
+            <div class="relative z-10 flex flex-col items-center">
+              <div class="text-[18px] font-extrabold" style="color:#3A2A00;">流量币 + 高德扫街榜</div>
+              <div class="text-[11px] mt-1.5" style="color:#8A6A2F;">拓客引流 · 涨单增收</div>
+              <a href="activity.html" class="inline-flex items-center gap-1 mt-2.5 px-5 py-1.5 rounded-full text-xs font-bold text-white active:scale-95 transition-transform" style="background:linear-gradient(180deg,#FF8A4A,#FF5A2E); box-shadow:0 4px 12px rgba(255,90,46,.35);">点击报名<i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. 底部留白 -->
       <div class="h-4"></div>
     </div>
   </main>
@@ -217,5 +238,81 @@ tailwind.config = {
   </nav>
 </div>
 
+<script>
+/* ===== 活动轮播：自动播放 4s + 触摸/鼠标拖动 ===== */
+(function () {
+  var carousel = document.getElementById('carousel');
+  var track = document.getElementById('carouselTrack');
+  var total = track.children.length;
+  var index = 0, timer = null, dragging = false, moved = 0;
+  var startX = 0, base = 0, touchJustEnded = 0;
+  var AUTO_MS = 4000;
+
+  function goTo(i, animate) {
+    index = (i + total) % total;
+    track.style.transition = animate === false ? 'none' : '';
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    if (animate === false) {
+      requestAnimationFrame(function () { track.style.transition = ''; });
+    }
+  }
+  function startAuto() { stopAuto(); timer = setInterval(function () { goTo(index + 1); }, AUTO_MS); }
+  function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+
+  function dragStart(x) {
+    stopAuto(); dragging = true; moved = 0;
+    startX = x;
+    base = -index * carousel.clientWidth;
+    track.style.transition = 'none';
+  }
+  function dragMove(x) {
+    if (!dragging) return;
+    moved = Math.abs(x - startX);
+    track.style.transform = 'translateX(' + (base + (x - startX)) + 'px)';
+  }
+  function dragEnd(x) {
+    if (!dragging) return;
+    dragging = false;
+    track.style.transition = '';
+    var dx = x - startX;
+    var threshold = carousel.clientWidth * 0.2;
+    if (dx <= -threshold) goTo(index + 1);
+    else if (dx >= threshold) goTo(index - 1);
+    else goTo(index);
+    startAuto();
+  }
+
+  /* 触摸滑动 */
+  carousel.addEventListener('touchstart', function (e) { dragStart(e.touches[0].clientX); }, { passive: true });
+  carousel.addEventListener('touchmove', function (e) { dragMove(e.touches[0].clientX); }, { passive: true });
+  carousel.addEventListener('touchend', function (e) {
+    var t = e.changedTouches[0];
+    if (t) dragEnd(t.clientX);
+    else { dragging = false; goTo(index); startAuto(); }
+    touchJustEnded = Date.now();
+  });
+
+  /* 鼠标拖动（桌面） */
+  carousel.addEventListener('mousedown', function (e) {
+    if (Date.now() - touchJustEnded < 600) return; /* 忽略触摸后的兼容鼠标事件 */
+    dragStart(e.clientX);
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', function (e) { dragMove(e.clientX); });
+  window.addEventListener('mouseup', function (e) { dragEnd(e.clientX); });
+
+  /* 拖动后阻止 CTA 误触跳转 */
+  track.addEventListener('click', function (e) {
+    if (moved > 8) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+  }, true);
+
+  /* 悬停暂停自动播放 */
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  goTo(0, false);
+  startAuto();
+})();
+</script>
 </body>
 </html>
