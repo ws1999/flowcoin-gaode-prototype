@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币明细</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">流量币明细</div>
+  </div>
+
+  <!-- Tab：获得明细 / 投放明细 -->
+  <div class="flex gap-1.5 px-4 pt-3">
+    <button class="eff-tab active" id="tabGain" onclick="switchDetailTab('gain')">获得明细</button>
+    <button class="eff-tab" id="tabSpend" onclick="switchDetailTab('spend')">投放明细</button>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 获得明细列表 -->
+    <div class="card mx-3 mt-3 overflow-hidden" id="listGain">
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-gold-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-coins text-gold-600 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">达到门槛一次性发放</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+16</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+      <div class="hairline mx-4"></div>
+
+      <div class="flex items-center px-4 py-3">
+        <div class="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-qrcode text-brand-500 text-[14px]"></i>
+        </div>
+        <div class="ml-3 flex-1 min-w-0">
+          <div class="text-[14px] text-ink-900">支付宝收款</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+        </div>
+        <div class="num text-[15px] font-bold text-success">+1</div>
+      </div>
+    </div>
+
+    <!-- 投放明细 -->
+    <div id="listSpend" class="hidden">
+      <!-- 投放记录 -->
+      <div class="card mx-3 mt-3 overflow-hidden">
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">千禧面包（西湖店）</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">甜里物语·烘焙工坊</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">小李烧烤</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">小张麻辣烫</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">刘大妈超市</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">甜里物语·烘焙工坊</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+        <div class="hairline mx-4"></div>
+
+        <div class="flex items-center px-4 py-3">
+          <div class="w-9 h-9 rounded-full bg-bg flex items-center justify-center flex-shrink-0">
+            <i class="fa-solid fa-store text-ink-400 text-[13px]"></i>
+          </div>
+          <div class="ml-3 flex-1 min-w-0">
+            <div class="text-[14px] text-ink-900">甜里物语·烘焙工坊</div>
+            <div class="text-[11px] text-ink-400 mt-0.5">2026.06.05 00:59:27</div>
+          </div>
+          <div class="text-right">
+            <div class="num text-[15px] font-bold" style="color:#FF5A2E;">-12</div>
+            <div class="text-[10.5px] text-ink-300 mt-0.5">分配曝光次数</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+</div>
+
+<script>
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+
+  // 明细 Tab 切换
+  function switchDetailTab(tab) {
+    var gainTab = document.getElementById('tabGain');
+    var spendTab = document.getElementById('tabSpend');
+    var gainList = document.getElementById('listGain');
+    var spendList = document.getElementById('listSpend');
+    if (tab === 'gain') {
+      gainTab.classList.add('active');
+      spendTab.classList.remove('active');
+      gainList.classList.remove('hidden');
+      spendList.classList.add('hidden');
+    } else {
+      spendTab.classList.add('active');
+      gainTab.classList.remove('active');
+      gainList.classList.add('hidden');
+      spendList.classList.remove('hidden');
+    }
+  }
+</script>
+</body>
+</html>
