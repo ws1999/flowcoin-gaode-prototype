@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>规则说明</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page" style="background:#F2F3FB;">
+
+  <!-- 状态栏（与原图一致：16:20） -->
+  <div class="statusbar">
+    <span>16:20</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航：仅返回箭头 + 居中标题 -->
+  <div class="navbar" style="border-bottom:none;">
+    <button class="nav-back" onclick="history.back()" style="color:#000;">
+      <i class="fa-solid fa-chevron-left text-[16px]"></i>
+    </button>
+    <div class="nav-title" style="font-size:17px; font-weight:600; color:#000;">规则说明</div>
+  </div>
+
+  <!-- 内容区：浅紫灰页底 + 白色内容块 -->
+  <div class="app-scroll" style="background:#F2F3FB;">
+
+    <!-- 活动规则：标题带（蓝色竖条 + 标题，直接落在页底上） -->
+    <div class="flex items-center" style="height:46px; padding:0 20px 0 13px; margin-top:16px;">
+      <span style="width:3px; height:13px; border-radius:2px; background:#5664F4; flex-shrink:0;"></span>
+      <span style="font-size:16px; font-weight:600; color:#0C0B13; margin-left:8px;">活动规则</span>
+    </div>
+
+    <!-- 活动规则：白色内容块（左19 右11 → 内容宽360px，与原图每行24字断行一致） -->
+    <div style="background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(17,24,39,.05); padding:25px 11px 16px 19px; margin-top:2px;">
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:0;">参与活动的门店，其支付宝收款笔数每日累计。同一用户同一日在同一门店的多笔支付，最多计入３笔。商户达到激励门槛后，即可获得流量币。</p>
+      <p style="font-size:15px; color:#1E1E1E; line-height:22px; margin:7px 0 0;">其中：</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">1、激励考核笔数每周一清零，若当周未达成目标，则不予发放流量币；其考核周期以活动时间为准，活动结束后数据清零；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">2、激励门槛根据商户报名前7天的收款笔数设定；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">3、流量币有效期为180天（自发放次日起计算）。</p>
+    </div>
+
+    <!-- 卡片间空隙 -->
+    <div style="height:6px;"></div>
+
+    <!-- 投放规则：标题带 -->
+    <div class="flex items-center" style="height:46px; padding:0 20px 0 13px;">
+      <span style="width:3px; height:13px; border-radius:2px; background:#5664F4; flex-shrink:0;"></span>
+      <span style="font-size:16px; font-weight:600; color:#0C0B13; margin-left:8px;">投放规则</span>
+    </div>
+
+    <!-- 投放规则：白色内容块 -->
+    <div style="background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(17,24,39,.05); padding:25px 11px 19px 19px; margin-top:2px;">
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:0;">1、投流方式为系统自动投放，暂不支持手动投放；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0; letter-spacing:-0.2px;">2、投流时间为每周日20:00，系统将自动消耗账户内的全部流量币余额进行投放；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">3、若同时存在闪购外卖与神券团购业务，默认投流比例为 5:5；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">4、投流区域默认为全国。</p>
+    </div>
+
+    <!-- 底部留白 -->
+    <div style="height:24px;"></div>
+
+  </div>
+
+</div>
+</body>
+</html>
