@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>消息</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <div class="nav-title">消息</div>
+    <button class="nav-right" onclick="readAll()">全部已读</button>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 分类列表（JS 渲染） -->
+    <div class="card mx-3 mt-3 overflow-hidden" id="catList"></div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部 tabBar -->
+  <nav class="tabbar">
+    <a class="tab" href="home.html">
+      <i class="fa-solid fa-house text-[22px]"></i>
+      <span>首页</span>
+    </a>
+    <a class="tab active" href="message.html">
+      <i class="fa-solid fa-comment-dots text-[22px]"></i>
+      <span>消息</span>
+      <span class="badge" id="msgBadge"></span>
+    </a>
+    <a class="tab" href="#">
+      <i class="fa-solid fa-user text-[22px]"></i>
+      <span>我的</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+  // 消息分类（消息内容与 message-list.html 共用一份数据）
+  var CATS = [
+    { key: 'announce', name: '公告通知', icon: 'fa-bullhorn',           bg: '#FFF9E6', color: '#FFB800', desc: '假日结算、安全提醒涉及您的资金安全请及时关注', time: '06-16' },
+    { key: 'update',   name: '功能更新', icon: 'fa-arrows-rotate',      bg: '#FFF3EE', color: '#FF9F64', desc: '产品功能更新及介绍都在这里啦～',           time: '' },
+    { key: 'activity', name: '支付宝活动通知', icon: 'fa-gift',        bg: '#FFF9E6', color: '#FFB800', desc: '淘宝闪购流量币 报名成功',                 time: '08-19' },
+    { key: 'service',  name: '服务消息', icon: 'fa-comment-dots',       bg: '#FFF3EE', color: '#FE9E5E', desc: '为您提供更友好的服务消息触达，避免错过重要消息哦～', time: '08-19' },
+    { key: 'biz',      name: '业务通知', icon: 'fa-briefcase',          bg: '#E6F2FF', color: '#56A8FD', desc: '经营类消息不再错过，如设备续费、实名认证、变更信息等。', time: '' },
+    { key: 'risk',     name: '风险通知', icon: 'fa-triangle-exclamation', bg: '#FFF3EE', color: '#F76D24', desc: '请及时关注风险通知，以免影响您的经营！', time: '' }
+  ];
+  // 各分类未读消息 type（与 message-list.html 的 MSGS 对应）
+  var CAT_MSGS = {
+    announce: ['announce'],
+    update: [],
+    activity: ['fc-success', 'gd-success', 'fc-fail', 'gd-fail'],
+    service: ['fc-arrival', 'settle'],
+    biz: [],
+    risk: []
+  };
+
+  // 状态持久化：{ read, pinnedCats, pinnedMsgs }
+  function loadState() {
+    try {
+      var s = JSON.parse(localStorage.getItem('msgState'));
+      if (s && Array.isArray(s.read) && Array.isArray(s.pinnedCats) && Array.isArray(s.pinnedMsgs)) return s;
+    } catch (e) {}
+    return { read: ['fc-arrival', 'settle', 'announce'], pinnedCats: ['announce','activity'], pinnedMsgs: [] };
+  }
+  function saveState() {
+    try { localStorage.setItem('msgState', JSON.stringify(state)); } catch (e) {}
+  }
+  var state = loadState();
+
+  function catUnread(c) {
+    return (CAT_MSGS[c.key] || []).filter(function (t) { return state.read.indexOf(t) === -1; }).length;
+  }
+
+  function render() {
+    var total = 0;
+    CATS.forEach(function (c) { total += (CAT_MSGS[c.key] || []).length; });
+    var unreadCount = total - state.read.length;
+    var badge = document.getElementById('msgBadge');
+    badge.textContent = unreadCount;
+    badge.style.display = unreadCount > 0 ? '' : 'none';
+
+    // 置顶分类优先
+    var ordered = CATS.slice().sort(function (a, b) {
+      var pa = state.pinnedCats.indexOf(a.key) !== -1 ? 1 : 0;
+      var pb = state.pinnedCats.indexOf(b.key) !== -1 ? 1 : 0;
+      return pb - pa;
+    });
+
+    var html = ordered.map(function (c, i) {
+      var unread = catUnread(c);
+      var pinned = state.pinnedCats.indexOf(c.key) !== -1;
+      var hasMsg = (CAT_MSGS[c.key] || []).length > 0;
+      var row = '<a class="flex items-center gap-3 px-4 py-3.5 active:bg-[#fafafa]" href="message-list.html?cat=' + c.key + '" style="text-decoration:none;">'
+        + '<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style="background:' + c.bg + ';">'
+        + '<i class="fa-solid ' + c.icon + ' text-[15px]" style="color:' + c.color + ';"></i></div>'
+        + '<div class="flex-1 min-w-0">'
+        + '<div class="flex items-center gap-1.5">'
+        + '<span class="text-[14px] font-bold text-ink-900">' + c.name + '</span>'
+        + (pinned ? '<span class="tag gold flex-shrink-0">置顶</span>' : '')
+        + (unread > 0 ? '<span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:#FF3B30;"></span>' : '')
+        + '</div>'
+        + '<div class="text-[12px] text-ink-400 mt-0.5 truncate">' + c.desc + '</div>'
+        + '</div>'
+        + '<span class="text-[11px] flex-shrink-0" style="color:' + (hasMsg ? '#B4B4B4' : '#C8C8C8') + ';">' + (hasMsg ? c.time : '暂无消息') + '</span>'
+        + '</a>';
+      if (i < ordered.length - 1) row += '<div class="hairline mx-4"></div>';
+      return row;
+    }).join('');
+    document.getElementById('catList').innerHTML = html;
+  }
+
+  // 全部已读
+  function readAll() {
+    var all = [];
+    Object.keys(CAT_MSGS).forEach(function (k) { all = all.concat(CAT_MSGS[k]); });
+    state.read = all.slice();
+    saveState();
+    render();
+    showToast('已全部标为已读');
+  }
+
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+
+  render();
+</script>
+</body>
+</html>
