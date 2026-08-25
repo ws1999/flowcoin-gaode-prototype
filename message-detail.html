@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>消息详情</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">消息详情</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 消息详情卡（JS 按 type 渲染） -->
+    <div class="card mx-3 mt-3 p-5">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" id="msgIcon"></div>
+        <div class="flex-1 min-w-0">
+          <div class="text-[15px] font-bold text-ink-900" id="msgTitle"></div>
+          <div class="text-[11.5px] text-ink-400 mt-1" id="msgTime"></div>
+        </div>
+      </div>
+
+      <div class="mt-4 rounded-xl p-4" style="background:#F7F8FA;" id="msgStatus"></div>
+
+      <div class="mt-4 text-[13.5px] text-ink-600 leading-relaxed" id="msgBody"></div>
+
+      <div class="mt-4 rounded-xl p-4 flex items-start gap-2" style="background:#FFF9E6;" id="msgTip">
+        <i class="fa-solid fa-circle-info text-[13px] mt-0.5 flex-shrink-0" style="color:#E6A400;"></i>
+        <span class="text-[12px] text-ink-600 leading-relaxed" id="msgTipText"></span>
+      </div>
+
+      <button class="btn-primary mt-6" id="msgBtn" onclick="onAction()"></button>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+</div>
+
+<script>
+  // 消息内容库（按 type 渲染）
+  var MSG = {
+    'fc-success': {
+      icon: '<i class="fa-solid fa-coins text-[19px]" style="color:#E6A400;"></i>',
+      iconBg: '#FFF9E6',
+      title: '淘宝闪购流量币 报名成功',
+      time: '2026-08-19 09:41',
+      status: '审核结果：<span style="color:#1EC46C; font-weight:600;">通过</span>',
+      body: '恭喜，您的淘宝闪购流量币活动报名已通过审核，流量币权益已开通。今后使用支付宝收款即可赚取流量币，流量币可兑换淘宝闪购推广曝光，让线上生意越做越大。',
+      tip: '',
+      btn: '',
+      href: ''
+    },
+    'gd-success': {
+      icon: '<i class="fa-solid fa-location-dot text-[19px]" style="color:#2E8FFF;"></i>',
+      iconBg: '#E6F2FF',
+      title: '高德扫街榜 报名成功',
+      time: '2026-08-19 09:40',
+      status: '审核结果：<span style="color:#1EC46C; font-weight:600;">通过</span>',
+      body: '恭喜，您的高德扫街榜报名已通过审核。顾客在支付宝碰一下设备的支付结果页即可看到您门店的高德扫街榜评价入口，碰的越多，排名越有机会提升。',
+      tip: '已为您开通扫街效果数据，可随时查看门店评分与榜单排名变化。',
+      btn: '',
+      href: ''
+    },
+    'fc-fail': {
+      icon: '<i class="fa-solid fa-circle-xmark text-[19px]" style="color:#FF5A2E;"></i>',
+      iconBg: '#FFF3EE',
+      title: '淘宝闪购流量币 报名未通过',
+      time: '2026-08-19 09:35',
+      status: '审核结果：<span style="color:#FF3B30; font-weight:600;">未通过</span>',
+      body: '很抱歉，您的淘宝闪购流量币活动报名未通过审核。原因是提交的闪购门店信息与平台登记信息不一致，请核对门店ID后重新提交报名。',
+      tip: '请进入淘宝闪购商家版「我的」→「门店设置」复制正确的门店ID。',
+      btn: '',
+      href: ''
+    },
+    'gd-fail': {
+      icon: '<i class="fa-solid fa-circle-xmark text-[19px]" style="color:#2E8FFF;"></i>',
+      iconBg: '#E6F2FF',
+      title: '高德扫街榜 报名未通过',
+      time: '2026-08-19 09:30',
+      status: '审核结果：<span style="color:#FF3B30; font-weight:600;">未通过</span>',
+      body: '很抱歉，您的高德扫街榜报名未通过审核。原因是提交的高德门店ID无法匹配到有效门店，请检查门店ID是否正确后重新报名。',
+      tip: '请进入高德商家版「我的」→「门店设置」确认门店ID后重新提交。',
+      btn: '',
+      href: ''
+    },
+    'fc-arrival': {
+      icon: '<i class="fa-solid fa-coins text-[19px]" style="color:#E6A400;"></i>',
+      iconBg: '#FFF9E6',
+      title: '流量币到账',
+      time: '2026-08-18 20:15',
+      status: '到账金额：<span class="num" style="color:#E6A400; font-weight:700;">+38.50</span>',
+      body: '您获得了一笔流量币奖励。来源：高德扫街榜人气奖励，感谢您积极参与扫街榜活动，请继续保持到店人气。',
+      tip: '流量币可用于兑换淘宝闪购推广曝光，1 个流量币 ≈ 15 次曝光。',
+      btn: '查看流量币',
+      href: 'flowcoin.html'
+    },
+    'settle': {
+      icon: '<i class="fa-solid fa-circle-check text-[19px]" style="color:#1EC46C;"></i>',
+      iconBg: '#E8F9F0',
+      title: '结算成功通知',
+      time: '2026-08-19 08:00',
+      status: '结算状态：<span style="color:#1EC46C; font-weight:600;">已到账</span>',
+      body: '您 2026-08-18 的营业款已完成结算，款项已打入您的结算银行卡，请注意查收。如有疑问请联系客服。',
+      tip: '结算明细可在「生意报表」中查看。',
+      btn: '返回首页',
+      href: 'home.html'
+    },
+    'announce': {
+      icon: '<i class="fa-solid fa-bullhorn text-[19px]" style="color:#FFB800;"></i>',
+      iconBg: '#FFF9E6',
+      title: '假日结算、安全提醒',
+      time: '2026-06-16 10:00',
+      status: '消息类型：<span style="color:#FFB800; font-weight:600;">公告通知</span>',
+      body: '假日期间资金结算将顺延至节后第一个工作日处理，请提前做好资金安排。同时提醒您：涉及资金安全的信息请通过官方渠道核实，谨防诈骗。',
+      tip: '如遇可疑消息，请及时联系官方客服确认。',
+      btn: '我知道了',
+      href: 'message.html'
+    }
+  };
+
+  var type = new URLSearchParams(window.location.search).get('type') || 'fc-success';
+  var msg = MSG[type] || MSG['fc-success'];
+
+  document.getElementById('msgIcon').innerHTML = msg.icon;
+  document.getElementById('msgIcon').style.background = msg.iconBg;
+  document.getElementById('msgTitle').textContent = msg.title;
+  document.getElementById('msgTime').textContent = msg.time;
+  document.getElementById('msgStatus').innerHTML = msg.status;
+  document.getElementById('msgBody').textContent = msg.body;
+  // 无 tip 的消息（如报名成功通知）隐藏提示框
+  if (msg.tip) {
+    document.getElementById('msgTipText').textContent = msg.tip;
+  } else {
+    document.getElementById('msgTip').style.display = 'none';
+  }
+
+  // 无操作按钮的消息（报名通知）隐藏按钮
+  var btn = document.getElementById('msgBtn');
+  if (msg.btn) {
+    btn.textContent = msg.btn;
+  } else {
+    btn.style.display = 'none';
+  }
+
+  function onAction() {
+    if (msg.href) location.href = msg.href;
+  }
+</script>
+</body>
+</html>
