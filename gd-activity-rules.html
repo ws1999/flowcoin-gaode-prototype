@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>规则说明</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page" style="background:#F2F3FB;">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航：仅返回箭头 + 居中标题 -->
+  <div class="navbar" style="border-bottom:none;">
+    <button class="nav-back" onclick="history.back()" style="color:#000;">
+      <i class="fa-solid fa-chevron-left text-[16px]"></i>
+    </button>
+    <div class="nav-title" style="font-size:17px; font-weight:600; color:#000;">规则说明</div>
+  </div>
+
+  <!-- 内容区：浅紫灰页底 + 白色内容块 -->
+  <div class="app-scroll" style="background:#F2F3FB;">
+
+    <!-- 报名条件：标题带（蓝色竖条 + 标题，直接落在页底上） -->
+    <div class="flex items-center" style="height:46px; padding:0 20px 0 13px; margin-top:16px;">
+      <span style="width:3px; height:13px; border-radius:2px; background:#5664F4; flex-shrink:0;"></span>
+      <span style="font-size:16px; font-weight:600; color:#0C0B13; margin-left:8px;">报名条件</span>
+    </div>
+
+    <!-- 报名条件：白色内容块（左19 右11 → 内容宽360px，与流量币规则页一致） -->
+    <div style="background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(17,24,39,.05); padding:25px 11px 16px 19px; margin-top:2px;">
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:0;">1、报名商户需为间联商户，商户等级达M4级；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">2、商户名下需有已创建成功的高德门店（尚未认领的门店，需先在高德完成门店认领）；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">3、商户需为非风控黑名单商户；</p>
+    </div>
+
+    <!-- 卡片间空隙 -->
+    <div style="height:6px;"></div>
+
+    <!-- 活动规则：标题带 -->
+    <div class="flex items-center" style="height:46px; padding:0 20px 0 13px;">
+      <span style="width:3px; height:13px; border-radius:2px; background:#5664F4; flex-shrink:0;"></span>
+      <span style="font-size:16px; font-weight:600; color:#0C0B13; margin-left:8px;">活动规则</span>
+    </div>
+
+    <!-- 活动规则：白色内容块 -->
+    <div style="background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(17,24,39,.05); padding:25px 11px 19px 19px; margin-top:2px;">
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:0;">参与活动的门店，将根据高德扫街榜综合评分进行排名展示。综合评分由行为分与信用分构成，由AI模型驱动计算。</p>
+      <p style="font-size:15px; color:#1E1E1E; line-height:22px; margin:7px 0 0;">其中：</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">1、支付宝线下到店支付计入行为分；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">2、交易后评价计入信用分；</p>
+      <p style="font-size:15px; color:#1B1B1B; line-height:22px; margin:7px 0 0;">3、报名后可提升门店评价数量，好评越多上榜机会越大。</p>
+    </div>
+
+    <!-- 底部留白 -->
+    <div style="height:24px;"></div>
+
+  </div>
+
+</div>
+</body>
+</html>
