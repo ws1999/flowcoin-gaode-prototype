@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>高德扫街榜报名</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">高德扫街榜报名</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 蓝色 Banner -->
+    <div class="mx-3 mt-3 rounded-2xl p-4 relative overflow-hidden" style="background:linear-gradient(135deg,#4a9bff 0%,#1677ff 60%,#0e5fd8 100%);">
+      <div class="absolute -right-6 -top-8 w-32 h-32 rounded-full" style="background:rgba(255,255,255,.12);"></div>
+      <div class="relative">
+        <div class="flex items-center gap-1.5 text-white/85">
+          <i class="fa-solid fa-location-dot text-[12px]"></i>
+          <span class="text-[12px]">小仙炖SKP快闪店</span>
+        </div>
+        <div class="text-[22px] font-bold text-white mt-2 leading-tight">高德扫街榜报名</div>
+        <p class="text-[12px] text-white/85 leading-relaxed mt-2">
+          报名后，可以在支付宝碰一下设备的支付结果页展示您门店的高德扫街榜评价入口。碰的越多，排名越有机会提升，获得更多的到店客流。
+        </p>
+      </div>
+    </div>
+
+    <!-- ① 开通优势 -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="flex items-center gap-1.5">
+        <span class="w-5 h-5 rounded-full flex items-center justify-center text-white text-[11px] font-bold" style="background:#1677ff;">①</span>
+        <span class="text-[15px] font-bold text-ink-900">开通优势</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-x-3 gap-y-4 mt-3.5">
+        <div class="flex gap-2.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F2FF; color:#1677ff;">
+            <i class="fa-solid fa-bullhorn text-[14px]"></i>
+          </div>
+          <div>
+            <div class="text-[13.5px] font-bold text-ink-900">海量曝光</div>
+            <div class="text-[11.5px] text-ink-400 mt-1">高德千万流量</div>
+          </div>
+        </div>
+        <div class="flex gap-2.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F2FF; color:#1677ff;">
+            <i class="fa-solid fa-crosshairs text-[14px]"></i>
+          </div>
+          <div>
+            <div class="text-[13.5px] font-bold text-ink-900">精准转化</div>
+            <div class="text-[11.5px] text-ink-400 mt-1">扫街榜种草</div>
+          </div>
+        </div>
+        <div class="flex gap-2.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F2FF; color:#1677ff;">
+            <i class="fa-solid fa-star text-[14px]"></i>
+          </div>
+          <div>
+            <div class="text-[13.5px] font-bold text-ink-900">口碑升级</div>
+            <div class="text-[11.5px] text-ink-400 mt-1">真实评价积累</div>
+          </div>
+        </div>
+        <div class="flex gap-2.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background:#E6F2FF; color:#1677ff;">
+            <i class="fa-solid fa-chart-line text-[14px]"></i>
+          </div>
+          <div>
+            <div class="text-[13.5px] font-bold text-ink-900">经营提效</div>
+            <div class="text-[11.5px] text-ink-400 mt-1">数据看板驱动</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部报名按钮 -->
+  <div class="footer-cta">
+    <button class="btn-primary" style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 8px 20px rgba(22,119,255,.32);" onclick="location.href='gd-store-link.html'">立即报名</button>
+  </div>
+
+</div>
+</body>
+</html>
