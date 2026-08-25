@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>流量币</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">流量币</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 商户信息 -->
+    <div class="flex items-center justify-between px-4 pt-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-[15px] font-bold flex-shrink-0"
+             style="background:linear-gradient(135deg,#ff7a4a,#ff4e1e);">炖</div>
+        <div>
+          <div class="text-[14px] font-bold text-ink-900">小仙炖SKP快闪店</div>
+          <div class="text-[11px] text-ink-400 mt-0.5">支付宝账号：138******88</div>
+        </div>
+      </div>
+      <button class="h-7 px-3 rounded-full border border-line bg-white text-[12px] text-ink-600 active:bg-[#f8f8f8]" onclick="showToast('规则页开发中')">规则</button>
+    </div>
+
+    <!-- 流量币汇总 -->
+    <div class="mx-3 mt-3 rounded-2xl p-4 relative overflow-hidden" style="background:linear-gradient(135deg,#FFD34E 0%,#FFB800 55%,#FF9A2E 100%);">
+      <div class="absolute -right-5 -top-7 w-28 h-28 rounded-full" style="background:rgba(255,255,255,.18);"></div>
+      <div class="flex items-start justify-between relative">
+        <div>
+          <div class="text-[15px] font-bold text-[#3a2400]">流量币汇总</div>
+          <div class="text-[10.5px] text-[#8a5a00] mt-0.5">支付宝收款越多，流量币获得越多</div>
+        </div>
+        <button class="text-[12px] text-[#8a5a00] flex items-center gap-0.5 active:opacity-70" onclick="location.href='flowcoin-detail.html'">
+          明细<i class="fa-solid fa-chevron-right text-[9px]"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-4 gap-2 mt-3.5 relative">
+        <div>
+          <div class="text-[10.5px] text-[#8a5a00]">当前余额</div>
+          <div class="num text-[18px] font-bold text-[#3a2400] mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-[#8a5a00]">累计获得</div>
+          <div class="num text-[18px] font-bold text-[#3a2400] mt-0.5">5,000</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-[#8a5a00]">累计消耗</div>
+          <div class="num text-[15px] font-bold text-[#3a2400] mt-1">350,000</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-[#8a5a00]">累计过期</div>
+          <div class="num text-[18px] font-bold text-[#3a2400] mt-0.5">1,000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 流量币获得任务 -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="flex items-center justify-between">
+        <span class="text-[15px] font-bold text-ink-900">流量币获得任务</span>
+        <button class="text-[12px] text-ink-400 flex items-center gap-0.5 active:opacity-70" onclick="showToast('历史周期页开发中')">
+          历史周期<i class="fa-solid fa-chevron-right text-[9px]"></i>
+        </button>
+      </div>
+
+      <div class="flex items-end justify-between mt-3">
+        <div>
+          <div class="text-[11px] text-ink-400">本周获得流量币</div>
+          <div class="num text-[34px] font-bold leading-none mt-1" style="color:#FF5A2E;">1,400</div>
+        </div>
+        <span class="tag green">进行中</span>
+      </div>
+
+      <div class="text-[12px] text-ink-600 mt-2">本周已达门槛，后续每笔收款得 1 个流量币</div>
+      <div class="text-[11px] text-ink-400 mt-1">任务日期：2026.01.01 - 01.07（周一到周五）</div>
+
+      <!-- 规则三列 -->
+      <div class="grid grid-cols-3 gap-2 mt-3 pt-3" style="border-top:1px solid #f0f0f0;">
+        <div class="text-center">
+          <div class="text-[10.5px] text-ink-400">本周笔数门槛</div>
+          <div class="text-[12.5px] font-bold text-ink-900 mt-1">达成得 13</div>
+        </div>
+        <div class="text-center" style="border-left:1px solid #f0f0f0; border-right:1px solid #f0f0f0;">
+          <div class="text-[12.5px] font-bold text-ink-900 mt-[18px]">每笔收款得 1 个</div>
+        </div>
+        <div class="text-center">
+          <div class="text-[10.5px] text-ink-400">超过 35 万笔</div>
+          <div class="text-[12.5px] font-bold text-ink-900 mt-1">不发流量币</div>
+        </div>
+      </div>
+
+      <!-- 进度条 -->
+      <div class="flex items-center gap-2 mt-3.5">
+        <span class="text-[10px] text-ink-400 flex-shrink-0">门槛</span>
+        <div class="flex-1 relative h-[6px] rounded-full" style="background:#F0F0F0;">
+          <div class="absolute left-0 top-0 h-full w-[22%] rounded-full" style="background:linear-gradient(90deg,#ffb800,#ff7a4a);"></div>
+          <div class="absolute w-3 h-3 rounded-full bg-white shadow border-2" style="left:calc(22% - 6px); top:-3px; border-color:#FFB800;"></div>
+        </div>
+        <span class="text-[10px] text-ink-400 flex-shrink-0">35万</span>
+      </div>
+    </div>
+
+    <!-- 投放效果汇总 -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="text-[15px] font-bold text-ink-900">投放效果汇总</div>
+
+      <!-- 时间范围 Tabs -->
+      <div class="flex gap-1.5 mt-2.5">
+        <button class="eff-tab active">累计</button>
+        <button class="eff-tab" onclick="switchTab(this)">近7天</button>
+        <button class="eff-tab" onclick="switchTab(this)">近30天</button>
+        <button class="eff-tab" onclick="switchTab(this)">自定义</button>
+      </div>
+
+      <!-- 指标 -->
+      <div class="grid grid-cols-3 gap-x-3 gap-y-3.5 mt-3.5">
+        <div>
+          <div class="text-[10.5px] text-ink-400">已分配流量币</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">已分配曝光总数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">160</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">已成功曝光数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">39</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">订单笔数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">30</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">新客订单数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">6</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 闪购推广效果 -->
+    <div class="card mx-3 mt-3 p-4">
+      <div class="flex items-center justify-between">
+        <div class="min-w-0">
+          <span class="text-[14px] font-bold text-ink-900">闪购推广效果</span>
+          <span class="text-[10.5px] text-ink-400 ml-1.5">1 个流量币 ≈ 15 次曝光</span>
+        </div>
+        <button class="text-[12px] text-ink-400 flex items-center gap-0.5 flex-shrink-0 active:opacity-70" onclick="location.href='flowcoin-effect.html'">
+          详情<i class="fa-solid fa-chevron-right text-[9px]"></i>
+        </button>
+      </div>
+      <div class="grid grid-cols-3 gap-x-3 gap-y-3.5 mt-3.5">
+        <div>
+          <div class="text-[10.5px] text-ink-400">已分配曝光数</div>
+          <div class="num text-[15px] font-bold text-ink-900 mt-0.5">35,000,000</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">已成功曝光数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">进店率</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">57.3%</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">订单笔数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+        <div>
+          <div class="text-[10.5px] text-ink-400">新客订单数</div>
+          <div class="num text-[16px] font-bold text-ink-900 mt-0.5">3,500</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部双按钮 -->
+  <div class="footer-cta" style="gap:12px;">
+    <button class="btn-outline" style="flex:1;" onclick="location.href='flowcoin-detail.html'">查看明细</button>
+    <button class="btn-primary" onclick="location.href='flowcoin-effect.html'">查看效果</button>
+  </div>
+
+</div>
+
+<script>
+  // 轻提示
+  function showToast(msg) {
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function () { toast.remove(); }, 2000);
+  }
+
+  // 时间范围 Tab 切换（演示：仅切换选中态）
+  function switchTab(btn) {
+    document.querySelectorAll('.eff-tab').forEach(function (t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    showToast('演示环境仅展示「累计」数据');
+  }
+</script>
+
+</body>
+</html>
