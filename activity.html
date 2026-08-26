@@ -113,10 +113,10 @@ tailwind.config = {
             <div id="gdReviewing" class="hidden">
               <div class="flex items-center gap-1.5 mt-1.5 cursor-pointer" onclick="location.href='gd-reviewing.html'">
                 <i class="fa-solid fa-circle-notch fa-spin text-[13px]" style="color:#1677ff;"></i>
-                <span class="text-[12px]" style="color:#1677ff;">报名中，审核通过后可查看效果数据</span>
+                <span class="text-[12px]" style="color:#1677ff;">正在审核，预计耗时约5分钟，请稍后</span>
                 <i class="fa-solid fa-chevron-right text-[9px] text-ink-300"></i>
               </div>
-              <div class="flex justify-end gap-2.5 mt-3">
+                            <div class="flex justify-end gap-2.5 mt-3">
                 <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='gd-activity-rules.html'">活动规则</button>
                 <a href="gd-reviewing.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
                    style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 4px 10px rgba(22,119,255,.3); text-decoration:none;">查看详情</a>
@@ -174,10 +174,10 @@ tailwind.config = {
 
   // 高德报名状态：提交完成后返回带 ?gd=reviewing → 报名中 → 5 秒后自动已报名
   var gdState = new URLSearchParams(window.location.search).get('gd');
+  var gdTag = document.getElementById('gdTag');
   if (gdState === 'reviewing') {
     document.getElementById('gdNotActivated').classList.add('hidden');
     document.getElementById('gdReviewing').classList.remove('hidden');
-    var gdTag = document.getElementById('gdTag');
     gdTag.textContent = '报名中';
     gdTag.classList.remove('gray');
     gdTag.classList.add('blue');
