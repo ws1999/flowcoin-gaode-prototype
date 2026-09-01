@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>高德扫街榜报名失败</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand:  { 50:'#FFF3EE', 100:'#FFE3D7', 400:'#FF7A4A', 500:'#FF5A2E', 600:'#F04A1E' },
+        gold:   { 50:'#FFF9E6', 100:'#FFEFC2', 400:'#FFD34E', 500:'#FFB800', 600:'#E6A400', 700:'#B85C00' },
+        alipay: '#1677FF',
+        gd:     { DEFAULT:'#2E8FFF', 50:'#E6F2FF' },
+        ink:    { 900:'#1A1A1A', 700:'#333333', 600:'#666666', 400:'#999999', 300:'#B4B4B4' },
+        bg:     '#F5F6F8',
+        line:   '#F0F0F0',
+        success:'#1EC46C',
+        danger: '#FF3B30',
+      },
+      fontFamily: { num: ['"DIN Alternate"', '"Helvetica Neue"', 'Arial', 'sans-serif'] },
+      boxShadow: { card: '0 2px 12px rgba(0,0,0,.04)', cta: '0 8px 20px rgba(255,90,46,.32)' },
+    },
+  },
+}
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="css/prototype.css" />
+</head>
+<body>
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="sb-right">
+      <i class="fa-solid fa-signal text-[11px]"></i>
+      <i class="fa-solid fa-wifi text-[11px]"></i>
+      <span style="font-size:13px;">5G</span>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+    </span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
+    <div class="nav-title">高德扫街榜</div>
+  </div>
+
+  <!-- 滚动区 -->
+  <div class="app-scroll">
+
+    <!-- 失败图标 + 标题 -->
+    <div class="flex flex-col items-center pt-10">
+      <div class="seq-anim opacity-0 w-[76px] h-[76px] rounded-full bg-[#FFECE9] flex items-center justify-center relative">
+        <i class="fa-solid fa-circle-exclamation text-[34px]" style="color:#FF3B30;"></i>
+      </div>
+      <h1 class="seq-anim d1 opacity-0 text-[22px] font-extrabold text-ink-900 mt-4">报名失败</h1>
+      <p class="seq-anim d2 opacity-0 text-[13px] text-ink-400 mt-1.5">很抱歉，您未通过高德扫街榜活动报名审核</p>
+    </div>
+
+    <!-- 失败原因卡片 -->
+    <div class="card seq-anim d3 opacity-0 mx-3 mt-6 p-4">
+      <div class="flex items-center gap-2">
+        <span class="w-[3px] h-[14px] rounded-full flex-shrink-0" style="background:#FF3B30;"></span>
+        <span class="text-[14px] font-bold text-ink-900">失败原因</span>
+      </div>
+      <p class="text-[14px] text-ink-700 leading-[22px] mt-3">你名下没有碰设备，请先去申请碰设备再进行开通</p>
+      <p class="text-[12px] text-ink-400 leading-[20px] mt-2">可申请设备含 n5、n7、蓝环、音响、碰点餐</p>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+
+  <!-- 底部操作栏 -->
+  <div class="footer-cta">
+    <button class="btn-primary" onclick="try{localStorage.removeItem('demoFail');}catch(e){} location.href='activity.html'">返回报名</button>
+  </div>
+
+</div>
+
+<script>
+  // 入场动画：内容依次淡入上浮
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var items = document.querySelectorAll('.seq-anim');
+      items.forEach(function (el, i) {
+        setTimeout(function () {
+          el.classList.remove('opacity-0');
+          el.classList.add('anim-fade-up');
+        }, 100 + i * 100);
+      });
+    }, 150);
+  });
+</script>
+</body>
+</html>
