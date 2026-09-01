@@ -46,7 +46,7 @@ tailwind.config = {
   <!-- 顶部导航 -->
   <div class="navbar">
     <button class="nav-back" onclick="history.back()"><i class="fa-solid fa-chevron-left text-[12px]"></i>返回</button>
-    <div class="nav-title">活动报名</div>
+    <div class="nav-title cursor-pointer" onclick="toggleDemo()">活动报名</div>
   </div>
 
   <!-- 滚动区 -->
@@ -70,7 +70,7 @@ tailwind.config = {
             <!-- 状态一：未报名（默认） -->
             <div id="stateNotActivated" class="flex justify-end gap-2.5 mt-3">
               <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='activity-rules.html'">活动规则</button>
-              <a href="open-intro.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+              <a id="fcRegBtn" href="open-intro.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
                  style="background:linear-gradient(90deg,#ff7a4a,#ff4e1e); box-shadow:0 4px 10px rgba(255,90,46,.3); text-decoration:none;">立即报名</a>
             </div>
 
@@ -105,7 +105,7 @@ tailwind.config = {
             <!-- 状态一：未报名（默认） -->
             <div id="gdNotActivated" class="flex justify-end gap-2.5 mt-3">
               <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='gd-activity-rules.html'">活动规则</button>
-              <a href="gd-register.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+              <a id="gdRegBtn" href="gd-register.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
                  style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 4px 10px rgba(22,119,255,.3); text-decoration:none;">立即报名</a>
             </div>
 
@@ -161,6 +161,36 @@ tailwind.config = {
 </div>
 
 <script>
+  // 演示开关：点击顶部「活动报名」标题，全部「立即报名」变「报名失败」
+  function applyDemo() {
+    var fail = false;
+    try { fail = localStorage.getItem('demoFail') === '1'; } catch (e) {}
+    var fcBtn = document.getElementById('fcRegBtn');
+    var gdBtn = document.getElementById('gdRegBtn');
+    if (fcBtn && gdBtn) {
+      if (fail) {
+        fcBtn.textContent = '报名失败';
+        fcBtn.href = 'flowcoin-fail.html';
+        gdBtn.textContent = '报名失败';
+        gdBtn.href = 'gd-fail.html';
+      } else {
+        fcBtn.textContent = '立即报名';
+        fcBtn.href = 'open-intro.html';
+        gdBtn.textContent = '立即报名';
+        gdBtn.href = 'gd-register.html';
+      }
+    }
+  }
+  function toggleDemo() {
+    var fail = false;
+    try { fail = localStorage.getItem('demoFail') === '1'; } catch (e) {}
+    fail = !fail;
+    try { localStorage.setItem('demoFail', fail ? '1' : '0'); } catch (e) {}
+    applyDemo();
+    showToast(fail ? '演示模式：报名将失败' : '已恢复：报名正常');
+  }
+  applyDemo();
+
   // 开通状态切换：从开通成功页返回时带 ?activated=1，流量币条目显示已开通
   var activated = new URLSearchParams(window.location.search).get('activated') === '1';
   if (activated) {
