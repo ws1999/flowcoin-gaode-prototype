@@ -208,8 +208,8 @@ tailwind.config = {
             <!-- 居中文案 -->
             <div class="relative z-10 flex flex-col items-center">
               <div class="text-[18px] font-extrabold" style="color:#3A2A00;">流量币 + 高德扫街榜</div>
-              <div class="text-[11px] mt-1.5" style="color:#8A6A2F;">拓客引流 · 涨单增收</div>
-              <a href="activity.html" class="inline-flex items-center gap-1 mt-2.5 px-5 py-1.5 rounded-full text-xs font-bold text-white active:scale-95 transition-transform" style="background:linear-gradient(180deg,#FF8A4A,#FF5A2E); box-shadow:0 4px 12px rgba(255,90,46,.35);">点击报名<i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+              <div class="text-[11px] mt-1.5" style="color:#8A6A2F;">碰一下，生意火一下</div>
+              <a href="activity-intro.html" onclick="return goActivity(event);" class="inline-flex items-center gap-1 mt-2.5 px-5 py-1.5 rounded-full text-xs font-bold text-white active:scale-95 transition-transform" style="background:linear-gradient(180deg,#FF8A4A,#FF5A2E); box-shadow:0 4px 12px rgba(255,90,46,.35);">点击报名<i class="fa-solid fa-chevron-right text-[9px]"></i></a>
             </div>
           </div>
         </div>
@@ -239,6 +239,20 @@ tailwind.config = {
 </div>
 
 <script>
+/* ===== 点击报名：首次进活动介绍页，之后直达报名页 ===== */
+function goActivity(e) {
+  if (e) e.preventDefault();
+  var seen = false;
+  try { seen = localStorage.getItem('introSeen') === '1'; } catch (err) {}
+  if (seen) {
+    location.href = 'activity.html';
+  } else {
+    try { localStorage.setItem('introSeen', '1'); } catch (err) {}
+    location.href = 'activity-intro.html';
+  }
+  return false;
+}
+
 /* ===== 活动轮播：自动播放 4s + 触摸/鼠标拖动 ===== */
 (function () {
   var carousel = document.getElementById('carousel');
