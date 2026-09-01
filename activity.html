@@ -74,7 +74,21 @@ tailwind.config = {
                  style="background:linear-gradient(90deg,#ff7a4a,#ff4e1e); box-shadow:0 4px 10px rgba(255,90,46,.3); text-decoration:none;">立即报名</a>
             </div>
 
-            <!-- 状态二：已报名（开通完成后回访） -->
+            <!-- 状态二：报名中（提交后返回，5 秒后自动转已报名） -->
+            <div id="fcReviewing" class="hidden">
+              <div class="flex items-center gap-1.5 mt-1.5 cursor-pointer" onclick="location.href='flowcoin-reviewing.html'">
+                <i class="fa-solid fa-circle-notch fa-spin text-[13px]" style="color:#FF5A2E;"></i>
+                <span class="text-[12px]" style="color:#FF5A2E;">正在审核，预计耗时约2分钟，请稍后</span>
+                <i class="fa-solid fa-chevron-right text-[9px] text-ink-300"></i>
+              </div>
+              <div class="flex justify-end gap-2.5 mt-3">
+                <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='activity-rules.html'">活动规则</button>
+                <a href="flowcoin-reviewing.html" class="inline-flex items-center h-8 px-4 rounded-full text-[13px] font-semibold text-white active:scale-95 transition-transform"
+                   style="background:linear-gradient(90deg,#ff7a4a,#ff4e1e); box-shadow:0 4px 10px rgba(255,90,46,.3); text-decoration:none;">查看详情</a>
+              </div>
+            </div>
+
+            <!-- 状态三：已报名（开通完成后回访） -->
             <div id="stateActivated" class="hidden">
               <div class="flex justify-end gap-2.5 mt-3">
                 <button class="h-8 px-3.5 rounded-full border border-line bg-white text-[13px] font-medium text-ink-700 active:bg-[#f8f8f8]" onclick="location.href='activity-rules.html'">活动规则</button>
@@ -200,6 +214,24 @@ tailwind.config = {
     tag.textContent = '已报名';
     tag.classList.remove('gray');
     tag.classList.add('green');
+  }
+
+  // 流量币报名状态：提交完成后返回带 ?fc=reviewing → 报名中 → 5 秒后自动已报名
+  var fcState = new URLSearchParams(window.location.search).get('fc');
+  var fcTag = document.getElementById('flowcoinTag');
+  if (fcState === 'reviewing') {
+    document.getElementById('stateNotActivated').classList.add('hidden');
+    document.getElementById('fcReviewing').classList.remove('hidden');
+    fcTag.textContent = '报名中';
+    fcTag.classList.remove('gray');
+    fcTag.classList.add('blue');
+    setTimeout(function () {
+      document.getElementById('fcReviewing').classList.add('hidden');
+      document.getElementById('stateActivated').classList.remove('hidden');
+      fcTag.textContent = '已报名';
+      fcTag.classList.remove('blue');
+      fcTag.classList.add('green');
+    }, 5000);
   }
 
   // 高德报名状态：提交完成后返回带 ?gd=reviewing → 报名中 → 5 秒后自动已报名
