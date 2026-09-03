@@ -139,10 +139,10 @@ tailwind.config = {
           <span class="w-7 h-7 rounded-lg bg-[#F6F7F9] flex items-center justify-center text-[#6c6c6c] text-[13px]"><i class="fa-solid fa-file-invoice"></i></span>
           <span class="text-xs text-ink-700">结算</span>
         </div>
-        <div class="flex flex-col items-center gap-1.5">
-          <span class="w-7 h-7 rounded-lg bg-[#F6F7F9] flex items-center justify-center text-[#6c6c6c] text-[13px]"><i class="fa-solid fa-chart-pie"></i></span>
-          <span class="text-xs text-ink-700">经营</span>
-        </div>
+        <a href="allfunction.html" class="flex flex-col items-center gap-1.5" style="text-decoration:none;">
+          <span class="w-7 h-7 rounded-lg bg-[#F6F7F9] flex items-center justify-center text-[#6c6c6c] text-[13px]"><i class="fa-solid fa-table-cells-large"></i></span>
+          <span class="text-xs text-ink-700">全部功能</span>
+        </a>
       </section>
 
       <!-- 4. 扫码点单 -->
@@ -240,11 +240,13 @@ tailwind.config = {
 
 <script>
 /* ===== 点击报名：首次进活动介绍页，之后直达报名页 ===== */
+/* ?first=1：演示用，强制走首次展示（不依赖 localStorage 清除） */
 function goActivity(e) {
   if (e) e.preventDefault();
+  var first = new URLSearchParams(window.location.search).get('first') === '1';
   var seen = false;
   try { seen = localStorage.getItem('introSeen') === '1'; } catch (err) {}
-  if (seen) {
+  if (seen && !first) {
     location.href = 'activity.html';
   } else {
     try { localStorage.setItem('introSeen', '1'); } catch (err) {}
