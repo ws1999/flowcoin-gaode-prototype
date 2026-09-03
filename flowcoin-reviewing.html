@@ -92,12 +92,18 @@ tailwind.config = {
 
   <!-- 底部完成按钮 -->
   <div class="footer-cta">
-    <button class="btn-primary" onclick="location.href='activity.html?fc=reviewing'">完成</button>
+    <button class="btn-primary" onclick="goBack()">完成</button>
   </div>
 
 </div>
 
 <script>
+  // 完成：回报名页并透传 again（已开通商家再次提交时按钮保持数据入口）
+  function goBack() {
+    var again = new URLSearchParams(window.location.search).get('again') === '1';
+    location.href = 'activity.html?fc=reviewing' + (again ? '&again=1' : '');
+  }
+
   // 轻提示
   function showToast(msg) {
     document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
