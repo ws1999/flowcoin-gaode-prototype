@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全部功能</title>
+<link rel="stylesheet" href="css/prototype.css" />
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/* ===== 内容区 ===== */
+
+/* 功能分组卡片 */
+.group-card {
+  background: #fff; border-radius: 16px; padding: 16px 12px 18px; margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.group-title {
+  font-size: 16px; font-weight: 600; color: #1f1f1f; margin-bottom: 14px; padding-left: 4px;
+  display: flex; align-items: center;
+}
+.tag-free {
+  display: inline-block; margin-left: 8px; padding: 2px 7px;
+  background: linear-gradient(90deg,#ff9c3d,#ff7a3d); color: #fff;
+  font-size: 10px; font-weight: 500; border-radius: 4px; line-height: 1.2;
+}
+
+/* 网格 */
+.grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 4px;
+}
+.grid.col-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* 单元格 */
+.cell {
+  display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: transform .15s;
+  position: relative;
+}
+.cell:active { transform: scale(0.94); }
+.icon-wrap {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin-bottom: 8px;
+}
+.icon-wrap svg { width: 28px; height: 28px; }
+.cell-name {
+  font-size: 12px; color: #1f1f1f; text-align: center; line-height: 1.3;
+  font-weight: 400;
+}
+.cell-sub {
+  font-size: 11px; color: #8a8a8a; margin-top: 2px; line-height: 1.2;
+}
+
+/* 图标背景色（按截图取色） */
+.bg-yellow { background: linear-gradient(160deg, #ffe89b, #ffd65c); }
+.bg-cyan { background: linear-gradient(160deg, #c7eedb, #8eddc1); }
+.bg-blue { background: linear-gradient(160deg, #c8d8ff, #9eb7f5); }
+.bg-green { background: linear-gradient(160deg, #d4f5c9, #9fd97d); }
+.bg-orange { background: linear-gradient(160deg, #ffd9b8, #ffb37d); }
+.bg-purple { background: linear-gradient(160deg, #e5d9ff, #c0a6f5); }
+.bg-pink { background: linear-gradient(160deg, #ffd0e0, #ff9dbd); }
+.bg-black { background: linear-gradient(160deg, #2c2c2c, #0a0a0a); }
+.bg-gold { background: linear-gradient(160deg, #ffe27a, #ffb800); }
+.bg-gd { background: linear-gradient(160deg, #8cc6ff, #2e8fff); }
+.bg-taobao { background: linear-gradient(160deg, #ff8a3d, #ff5000); }
+
+/* 美团 / 抖音 角标 */
+.icon-badge {
+  position: absolute; top: -3px; left: -5px;
+  background: #ffd83d; color: #000; font-size: 9px; font-weight: 700;
+  padding: 2px 5px; border-radius: 5px; line-height: 1; letter-spacing: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+  font-family: -apple-system, sans-serif;
+}
+/* "字"角标 */
+.icon-badge-tag-zhong {
+  position: absolute; top: -2px; right: -5px;
+  background: #ff5757; color: #fff; font-size: 9px; font-weight: 700;
+  width: 14px; height: 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+/* 抖音"乐"角标 */
+.icon-badge-tag-lv {
+  position: absolute; top: -2px; right: -5px;
+  background: #5b8def; color: #fff; font-size: 9px; font-weight: 700;
+  width: 14px; height: 14px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+/* 抖音头像 */
+.douyin-avatar {
+  position: absolute; bottom: -3px; right: -4px;
+  width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid #fff;
+  background: linear-gradient(135deg,#ff5e8e,#7d6bff);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 9px; font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+
+/* "去开通"按钮 */
+.open-btn {
+  margin-top: 6px;
+  font-size: 11px; color: #5a5a5a;
+  background: #fff; border: 1px solid #d8d8d8;
+  padding: 3px 10px; border-radius: 11px;
+  display: inline-block; line-height: 1.2;
+}
+
+/* 分割线（团购核销组里"去开通" / "核销记录" 之间） */
+.divider-v {
+  position: absolute; width: 1px; background: #ececec; top: 10px; bottom: 10px; left: 75%;
+}
+</style>
+</head>
+<body>
+
+<div class="app-page">
+
+  <!-- 状态栏 -->
+  <div class="statusbar">
+    <div style="display:flex;align-items:center;gap:4px;">
+      <span>13:42</span>
+      <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+        <path d="M0 8 Q3 4 7 8 T14 8" stroke="#000" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <circle cx="7" cy="9" r="1" fill="#000"/>
+      </svg>
+    </div>
+    <span class="sb-right">
+      <!-- 信号 -->
+      <svg width="17" height="11" viewBox="0 0 17 11" fill="none">
+        <rect x="0" y="7" width="3" height="4" rx="0.5" fill="#000"/>
+        <rect x="4.5" y="5" width="3" height="6" rx="0.5" fill="#000"/>
+        <rect x="9" y="2.5" width="3" height="8.5" rx="0.5" fill="#000"/>
+        <rect x="13.5" y="0" width="3" height="11" rx="0.5" fill="#000"/>
+      </svg>
+      <span style="font-size:13px;font-weight:600;letter-spacing:-0.5px;">5G</span>
+      <!-- 电池 -->
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none">
+        <rect x="0.5" y="0.5" width="23" height="12" rx="3" stroke="#000" stroke-opacity="0.4" fill="none"/>
+        <rect x="2" y="2" width="20" height="9" rx="1.5" fill="#000"/>
+        <rect x="24.5" y="4.5" width="1.8" height="4" rx="0.5" fill="#000" fill-opacity="0.5"/>
+      </svg>
+    </span>
+  </div>
+
+  <!-- 导航栏 -->
+  <div class="navbar">
+    <button class="nav-back" onclick="location.href='home.html'">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M13 4 L7 10 L13 16" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </button>
+    <div class="nav-title">全部功能</div>
+  </div>
+
+  <!-- 滚动内容 -->
+  <div class="app-scroll" style="padding:4px 12px 40px;">
+
+          <!-- ========== 1. 门店经营 ========== -->
+          <div class="group-card">
+            <div class="group-title">门店经营</div>
+            <div class="grid">
+              <!-- 收款设备 -->
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <!-- POS -->
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="3" width="13" height="18" rx="1.5" stroke="#1a1a1a" stroke-width="1.6"/>
+                    <rect x="9" y="6" width="7" height="5" rx="0.5" fill="#1a1a1a"/>
+                    <rect x="9" y="14" width="2" height="2" fill="#1a1a1a"/>
+                    <rect x="12" y="14" width="2" height="2" fill="#1a1a1a"/>
+                    <rect x="15" y="14" width="2" height="2" fill="#1a1a1a"/>
+                    <rect x="14" y="22" width="5" height="2" rx="1" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">收款设备</div>
+              </div>
+              <!-- 员工管理 -->
+              <div class="cell">
+                <div class="icon-wrap bg-cyan">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="10" r="3.5" fill="#1a1a1a"/>
+                    <path d="M7 22c0-3.5 3.1-6 7-6s7 2.5 7 6" stroke="#1a1a1a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+                    <circle cx="22" cy="9" r="2.8" fill="#ff9c3d" stroke="#fff" stroke-width="1"/>
+                  </svg>
+                </div>
+                <div class="cell-name">员工管理</div>
+              </div>
+              <!-- 门店管理 -->
+              <div class="cell">
+                <div class="icon-wrap bg-blue">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M4 13 L14 6 L24 13 V22 H4 Z" stroke="#1a1a1a" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+                    <rect x="12" y="16" width="4" height="6" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">门店管理</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== 支付宝活动 ========== -->
+          <div class="group-card">
+            <div class="group-title">支付宝活动</div>
+            <div class="grid">
+              <!-- 淘宝闪购流量币（点击直接进绑定门店页） -->
+              <div class="cell" onclick="location.href='store-link.html'">
+                <div class="icon-wrap bg-taobao">
+                  <!-- 淘宝闪购 logo：橙底 + 白「淘宝闪购」文字 -->
+                  <span style="color:#fff;font-size:11px;font-weight:700;line-height:1.25;text-align:center;letter-spacing:1px;">淘宝<br>闪购</span>
+                </div>
+                <div class="cell-name">淘宝闪购<br>流量币</div>
+              </div>
+              <!-- 高德门店扫街榜（点击直接进绑定门店页） -->
+              <div class="cell" onclick="location.href='gd-store-link.html'">
+                <div class="icon-wrap bg-gd">
+                  <!-- 高德 logo：蓝底 + 白色导航箭头 -->
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M23 5 L4 14 L12 16.5 L14.5 24.5 Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">高德门店<br>扫街榜</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== 2. 对账结算 ========== -->
+          <div class="group-card">
+            <div class="group-title">对账结算</div>
+            <div class="grid">
+              <!-- 实时账本 -->
+              <div class="cell">
+                <div class="icon-wrap bg-green">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="5" width="16" height="18" rx="1.5" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <rect x="9" y="10" width="10" height="1.5" fill="#1a1a1a"/>
+                    <rect x="9" y="13.5" width="10" height="1.5" fill="#1a1a1a"/>
+                    <rect x="9" y="17" width="7" height="1.5" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">实时账本</div>
+              </div>
+              <!-- 生意报表 -->
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="5" y="5" width="18" height="18" rx="1.5" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <rect x="9" y="15" width="2.5" height="5" fill="#1a1a1a"/>
+                    <rect x="13" y="11" width="2.5" height="9" fill="#1a1a1a"/>
+                    <rect x="17" y="8" width="2.5" height="12" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">生意报表</div>
+              </div>
+              <!-- 快速查询 -->
+              <div class="cell">
+                <div class="icon-wrap bg-blue">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <circle cx="12" cy="12" r="6" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
+                    <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+                    <text x="12" y="14.5" font-size="7" font-weight="700" fill="#1a1a1a" text-anchor="middle">Q</text>
+                  </svg>
+                </div>
+                <div class="cell-name">快速查询</div>
+              </div>
+              <!-- 结算记录 -->
+              <div class="cell">
+                <div class="icon-wrap bg-orange">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M9 11 h12 v8 a2 2 0 0 1 -2 2 h-8 a2 2 0 0 1 -2 -2 z" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <path d="M9 11 V9 a2 2 0 0 1 2 -2 h8 a2 2 0 0 1 2 2 v2" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <text x="15" y="19" font-size="6.5" font-weight="700" fill="#1a1a1a" text-anchor="middle">¥</text>
+                  </svg>
+                </div>
+                <div class="cell-name">结算记录</div>
+              </div>
+              <!-- 账户资产 -->
+              <div class="cell">
+                <div class="icon-wrap bg-orange">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <ellipse cx="14" cy="21" rx="9" ry="3" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <path d="M5 21 V10 a9 3 0 0 0 18 0 v11" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <text x="14" y="22" font-size="6" font-weight="700" fill="#1a1a1a" text-anchor="middle">¥</text>
+                  </svg>
+                </div>
+                <div class="cell-name">账户资产</div>
+              </div>
+              <!-- 分账账单 -->
+              <div class="cell">
+                <div class="icon-wrap bg-purple">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M6 11 V8 h10 v6 h-2 l2 2 -2 2 v-2 h-2 v-2 h-6 z" stroke="#1a1a1a" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+                    <text x="17" y="14.5" font-size="6.5" font-weight="700" fill="#1a1a1a" text-anchor="middle">¥</text>
+                  </svg>
+                </div>
+                <div class="cell-name">分账账单</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== 3. 智慧营销 ========== -->
+          <div class="group-card">
+            <div class="group-title">智慧营销</div>
+            <div class="grid">
+              <!-- 智慧营销 -->
+              <div class="cell">
+                <div class="icon-wrap bg-pink">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M9 18 L13 5 h6 l-3.2 9 H20 L9 23 l3.5 -10 H11 z" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="0.5" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">智慧营销</div>
+              </div>
+              <!-- 会员管理 -->
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <polygon points="14,4 17,12 25,12 18.5,17 21,25 14,20 7,25 9.5,17 3,12 11,12" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">会员管理</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== 4. 团购核销 ========== -->
+          <div class="group-card" style="position:relative;">
+            <div class="group-title">
+              团购核销
+              <span class="tag-free">限时免费</span>
+            </div>
+            <div class="grid">
+              <!-- 美团团购（餐饮） -->
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <span class="icon-badge">美团</span>
+                  <span class="icon-badge-tag-zhong">字</span>
+                  <!-- 餐盘图标 -->
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <ellipse cx="14" cy="11" rx="9" ry="2.5" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <ellipse cx="14" cy="13" rx="9" ry="2" stroke="#1a1a1a" stroke-width="1.4" fill="none"/>
+                    <line x1="14" y1="13" x2="14" y2="22" stroke="#1a1a1a" stroke-width="1.4"/>
+                    <line x1="9" y1="22" x2="19" y2="22" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">美团团购</div>
+                <div class="cell-sub">（餐饮）</div>
+                <div class="open-btn">去开通</div>
+              </div>
+
+              <!-- 美团团购（非餐饮） -->
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <span class="icon-badge">美团</span>
+                  <span class="icon-badge-tag-lv">乐</span>
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="6" width="16" height="14" rx="1.5" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <line x1="6" y1="11" x2="22" y2="11" stroke="#1a1a1a" stroke-width="1.4"/>
+                    <circle cx="10" cy="23" r="1.5" fill="#1a1a1a"/>
+                    <circle cx="18" cy="23" r="1.5" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">美团团购</div>
+                <div class="cell-sub">（非餐饮）</div>
+                <div class="open-btn">去开通</div>
+              </div>
+
+              <!-- 抖音团购 -->
+              <div class="cell">
+                <div class="icon-wrap bg-black">
+                  <span class="douyin-avatar">抖</span>
+                  <!-- d音符 -->
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <path d="M17 7 v10 a4 4 0 1 1 -4 -4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                    <path d="M17 7 a4 4 0 0 0 4 4" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">抖音</div>
+                <div class="cell-sub">团购</div>
+                <div class="open-btn">去开通</div>
+              </div>
+
+              <!-- 核销记录 -->
+              <div class="cell">
+                <div class="icon-wrap" style="background:linear-gradient(160deg,#ffe1ec,#ffc6dc);">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="4" width="16" height="20" rx="2" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <line x1="9" y1="9" x2="19" y2="9" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="9" y1="13" x2="19" y2="13" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="9" y1="17" x2="15" y2="17" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M18 18 l1.8 1.8 L23 16.5" stroke="#ff5757" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">核销记录</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ========== 5. 扫码点单 ========== -->
+          <div class="group-card">
+            <div class="group-title">扫码点单</div>
+            <div class="grid">
+              <div class="cell">
+                <div class="icon-wrap bg-yellow">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="3" width="4" height="4" stroke="#1a1a1a" stroke-width="1.4" fill="none"/>
+                    <rect x="14" y="3" width="4" height="4" stroke="#1a1a1a" stroke-width="1.4" fill="none"/>
+                    <rect x="6" y="11" width="4" height="4" stroke="#1a1a1a" stroke-width="1.4" fill="none"/>
+                    <rect x="14" y="11" width="4" height="4" fill="#1a1a1a"/>
+                    <rect x="6" y="19" width="4" height="4" fill="#1a1a1a"/>
+                    <rect x="14" y="19" width="4" height="4" stroke="#1a1a1a" stroke-width="1.4" fill="none"/>
+                    <rect x="22" y="11" width="0" height="0"/>
+                  </svg>
+                </div>
+                <div class="cell-name">点单码</div>
+              </div>
+              <div class="cell">
+                <div class="icon-wrap bg-orange">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="7" y="4" width="14" height="20" rx="2" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <line x1="10" y1="9" x2="18" y2="9" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="10" y1="13" x2="18" y2="13" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                    <line x1="10" y1="17" x2="15" y2="17" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">点菜单</div>
+              </div>
+              <div class="cell">
+                <div class="icon-wrap bg-pink">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="7" width="16" height="14" rx="2" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <path d="M14 7 V21" stroke="#1a1a1a" stroke-width="1.4" stroke-dasharray="2 2"/>
+                    <circle cx="11" cy="14" r="1.2" fill="#1a1a1a"/>
+                    <circle cx="17" cy="14" r="1.2" fill="#1a1a1a"/>
+                  </svg>
+                </div>
+                <div class="cell-name">月卡</div>
+              </div>
+              <div class="cell">
+                <div class="icon-wrap bg-green">
+                  <svg viewBox="0 0 28 28" fill="none">
+                    <rect x="6" y="6" width="16" height="16" rx="2" stroke="#1a1a1a" stroke-width="1.6" fill="none"/>
+                    <path d="M10 14 L13 17 L19 10" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="cell-name">订单核销</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 占位空 -->
+          <div style="height:20px;"></div>
+        </div>
+
+  </div>
+
+<script>
+  // 点击切换小反馈（演示用）
+  document.querySelectorAll('.cell').forEach(c => {
+    c.addEventListener('click', () => {
+      const name = c.querySelector('.cell-name')?.textContent || '';
+      console.log('点击：', name);
+    });
+  });
+</script>
+
+</body>
+</html>
