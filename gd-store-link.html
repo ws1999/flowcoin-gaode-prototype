@@ -140,7 +140,9 @@ tailwind.config = {
     btn.disabled = true;
     btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i>提交中…';
     setTimeout(function () {
-      location.href = 'gd-reviewing.html';
+      // 已绑定过门店的商家再次绑定时透传 again，报名页按钮保持「扫街效果数据」
+      var again = new URLSearchParams(window.location.search).get('again') === '1';
+      location.href = 'gd-reviewing.html' + (again ? '?again=1' : '');
     }, 800);
   }
 
