@@ -92,12 +92,18 @@ tailwind.config = {
 
   <!-- 底部完成按钮 -->
   <div class="footer-cta">
-    <button class="btn-primary" style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 8px 20px rgba(22,119,255,.32);" onclick="location.href='activity.html?gd=reviewing'">完成</button>
+    <button class="btn-primary" style="background:linear-gradient(90deg,#4a9bff,#1677ff); box-shadow:0 8px 20px rgba(22,119,255,.32);" onclick="goBack()">完成</button>
   </div>
 
 </div>
 
 <script>
+  // 完成：回报名页并透传 again（再次绑定门店时按钮保持扫街效果数据）
+  function goBack() {
+    var again = new URLSearchParams(window.location.search).get('again') === '1';
+    location.href = 'activity.html?gd=reviewing' + (again ? '&again=1' : '');
+  }
+
   // 轻提示
   function showToast(msg) {
     document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
