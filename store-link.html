@@ -175,7 +175,9 @@ tailwind.config = {
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-[15px]"></i> 提交中';
     btn.style.pointerEvents = 'none';
     setTimeout(function () {
-      window.location.href = 'flowcoin-reviewing.html';
+      // 已开通商家再次关联门店时透传 again，报名页按钮保持「查看流量币」
+      var again = new URLSearchParams(window.location.search).get('again') === '1';
+      window.location.href = 'flowcoin-reviewing.html' + (again ? '?again=1' : '');
     }, 800);
     return false;
   }
