@@ -87,6 +87,14 @@ tailwind.config = {
       </div>
     </div>
 
+    <!-- 刷新状态 -->
+    <div class="mx-3 mt-4">
+      <button class="w-full py-3 rounded-xl text-[14px] font-bold" style="background:#fff; color:#FF5A2E; border:1px solid rgba(255,90,46,.35);" onclick="refreshStatus(this)">
+        <i class="fa-solid fa-rotate-right text-[13px] mr-1"></i>刷新状态
+      </button>
+      <div class="text-center text-[11px] text-ink-400 mt-2" id="refreshTime">上次刷新 09:41</div>
+    </div>
+
     <div class="h-4"></div>
   </div>
 
@@ -102,6 +110,22 @@ tailwind.config = {
   function goBack() {
     var again = new URLSearchParams(window.location.search).get('again') === '1';
     location.href = 'activity.html?fc=reviewing' + (again ? '&again=1' : '');
+  }
+
+  // 刷新状态：模拟一次状态查询
+  function refreshStatus(btn) {
+    if (btn.disabled) return;
+    btn.disabled = true;
+    var origin = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-[13px] mr-1"></i>刷新中…';
+    setTimeout(function () {
+      btn.disabled = false;
+      btn.innerHTML = origin;
+      var d = new Date();
+      var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+      document.getElementById('refreshTime').textContent = '上次刷新 ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      showToast('已刷新，仍在审核中');
+    }, 1000);
   }
 
   // 轻提示
